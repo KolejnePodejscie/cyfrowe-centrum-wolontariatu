@@ -1,0 +1,194 @@
+services:
+  postgres:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    secrets:
+      - postgres_password
+      - kratos_postgres_password
+      - hydra_postgres_password
+      - keto_postgres_password
+      - wolontariusz_app_postgres_password
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - internal
+
+  ory-kratos-migrate:
+    image: oryd/kratos:v1.3.1
+    restart: on-failure
+    # environment:
+    #   - POSTGRES_PASSWORD=$(cat /run/secrets/kratos_postgres_password)
+    #   - DSN=postgres://kratos_user:${POSTGRES_PASSWORD}@postgres:5432/kratos?sslmode=disable
+    # secrets:
+    #   - kratos_postgres_password
+    volumes:
+      - ./kratos:/etc/config/kratos
+    command: -c /etc/config/kratos/kratos.yaml migrate sql -e --yes
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - internal
+
+  ory-kratos:
+    image: oryd/kratos:v1.3.1
+    restart: unless-stopped
+    depends_on:
+      ory-kratos-migrate:
+        condition: service_completed_successfully
+    # environment:
+    #   - POSTGRES_PASSWORD=$(cat /run/secrets/kratos_postgres_password)
+    #   - DSN=postgres://kratos_user:${POSTGRES_PASSWORD}@postgres:5432/kratos?sslmode=disable
+    # secrets:
+    #   - kratos_cookie_secret1
+    #   - kratos_cookie_secret2
+    #   - kratos_postgres_password
+    command: serve -c /etc/config/kratos/kratos.yaml all --dev
+    volumes:
+      - ./kratos:/etc/config/kratos
+      - ory-kratos-data:/home/ory
+    ports:
+      - "127.0.0.1:4433:4433"
+      - "127.0.0.1:4434:4434"
+    networks:
+      - internal
+
+  ory-kratos-selfservice-ui-node:
+    image: oryd/kratos-selfservice-ui-node:v1.3.1
+    restart: unless-stopped
+    depends_on:
+      - ory-kratos
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - KRATOS_PUBLIC_URL=http://ory-kratos:4433/
+      - KRATOS_BROWSER_URL=http://localhost:4433/
+      - COOKIE_SECRET=youReallyNeedToChangeThis
+      - CSRF_COOKIE_NAME=ory_csrf_ui
+      - CSRF_COOKIE_SECRET=youReallyNeedToChangeThis
+    networks:
+      - internal
+
+  # MAYBE REMOVE IF RESOURCE HEAVY
+  # ory-hydra-migrate:
+  #   image: oryd/hydra:v2.2.0
+  #   restart: on-failure
+  #   # environment:
+  #   #   - POSTGRES_PASSWORD=$(cat /run/secrets/hydra_postgres_password)
+  #   #   - DSN=postgres://hydra_user:${POSTGRES_PASSWORD}@postgres:5432/hydra?sslmode=disable
+  #   # secrets:
+  #   #   - hydra_postgres_password
+  #   volumes:
+  #     - ./hydra:/etc/config/hydra
+  #     - ory-hydra-data:/home/ory
+  #   command: migrate -c /etc/config/hydra/hydra.yaml sql -e --yes
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   networks:
+  #     - internal
+  #
+  #
+  # ory-hydra:
+  #   image: oryd/hydra:v2.2.0
+  #   restart: unless-stopped
+  #   # environment:
+  #   #   - POSTGRES_PASSWORD=$(cat /run/secrets/hydra_postgres_password)
+  #   #   - DSN=postgres://hydra_user:${POSTGRES_PASSWORD}@postgres:5432/hydra?sslmode=disable
+  #   # secrets:
+  #   #   - hydra_postgres_password
+  #   ports:
+  #     - 127.0.0.1:4444:4444 # public
+  #     - 127.0.0.1:4445:4445 # admin
+  #     - 127.0.0.1:5555:5555 # Port for hydra token user
+  #   volumes:
+  #     - ./hydra:/etc/config/hydra
+  #     - ory-hydra-data:/home/ory
+  #   command: serve -c /etc/config/hydra/hydra.yaml all --dev
+  #   depends_on:
+  #     ory-hydra-migrate:
+  #       condition: service_completed_successfully
+  #   networks:
+  #     - internal
+  #
+  # ory-keto-migrate:
+  #   image: oryd/keto:v0.12.0
+  #   restart: on-failure
+  #   # environment:
+  #   #   - POSTGRES_PASSWORD=$(cat /run/secrets/keto_postgres_password)
+  #   #   - DSN=postgres://keto_user:${POSTGRES_PASSWORD}@postgres:5432/keto?sslmode=disable
+  #   # secrets:
+  #   #   - keto_postgres_password
+  #   volumes:
+  #     - ./keto:/etc/config/keto
+  #     - ory-keto-data:/home/ory
+  #   command: migrate -c /etc/config/keto/keto.yaml up --yes
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   networks:
+  #     - internal
+  #
+  #
+  # ory-keto:
+  #   image: oryd/keto:v0.12.0
+  #   restart: unless-stopped
+  #   # environment:
+  #   #   - POSTGRES_PASSWORD=$(cat /run/secrets/keto_postgres_password)
+  #   #   - DSN=postgres://keto_user:${POSTGRES_PASSWORD}@postgres:5432/keto?sslmode=disable
+  #   # secrets:
+  #   #   - keto_postgres_password
+  #   ports:
+  #     - 127.0.0.1:4466:4466 # public
+  #     - 127.0.0.1:4467:4467 # admin
+  #   volumes:
+  #     - ./keto:/etc/config/keto
+  #     - ory-keto-data:/home/ory
+  #   command: serve -c /etc/config/keto/keto.yaml all
+  #   depends_on:
+  #     ory-keto-migrate:
+  #       condition: service_completed_successfully
+  #   networks:
+  #     - internal
+
+  ory-mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:4436:4436
+      - 127.0.0.1:4437:4437
+    networks:
+      - internal
+
+volumes:
+  pg-data:
+  ory-kratos-data:
+  # ory-hydra-data:
+  # ory-keto-data:
+
+# TODO: improve secret loading in ory services
+secrets:
+  postgres_password:
+    file: ./secrets/postgres_password.txt
+  kratos_postgres_password:
+    file: ./secrets/kratos_postgres_password.txt
+  keto_postgres_password:
+    file: ./secrets/keto_postgres_password.txt
+  hydra_postgres_password:
+    file: ./secrets/hydra_postgres_password.txt
+  wolontariusz_app_postgres_password:
+    file: ./secrets/wolontariusz_app_postgres_password.txt
+
+networks:
+  internal:
+    driver: bridge
