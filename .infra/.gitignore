@@ -2,3 +2,4 @@ secrets/*.txt
 kratos/kratos.yaml
 keto/keto.yaml
 hydra/hydra.yaml
+nginx/site.conf

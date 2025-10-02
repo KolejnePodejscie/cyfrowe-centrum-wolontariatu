@@ -17,12 +17,12 @@ dsn: postgres://kratos_user:<postgres_password>@postgres:5432/kratos?sslmode=dis
 #
 serve:
   public:
-    base_url: http://localhost:4433
+    base_url: https://<auth_hostname>
     cors:
       enabled: true
       allowed_origins:
-        - http://localhost:3000
-        - http://localhost:4000
+        - https://<auth_hostname>
+        # - http://localhost:4000
   admin:
     base_url: http://localhost:4434
 
@@ -30,7 +30,7 @@ serve:
 # Configure the session cookie.
 #
 cookies:
-  domain: http://localhost
+  domain: http://<domain_hostname>
   path: /
   same_site: Lax
 
@@ -40,9 +40,10 @@ cookies:
 # You can also activate authentication methods.
 #
 selfservice:
-  default_browser_return_url: http://localhost:3000/welcome
+  default_browser_return_url: https://<auth_hostname>/_/welcome
   allowed_return_urls:
-    - http://localhost:3000
+    - https://<auth_hostname>
+    # - http://
 
   methods:
     password:
@@ -60,36 +61,36 @@ selfservice:
 
   flows:
     error:
-      ui_url: http://localhost:3000/error
+      ui_url: https://<auth_hostname>/_/error
 
     settings:
-      ui_url: http://localhost:3000/settings
+      ui_url: https://<auth_hostname>/_/settings
       privileged_session_max_age: 15m
       required_aal: highest_available
 
     recovery:
       enabled: true
-      ui_url: http://localhost:3000/recovery
+      ui_url: https://<auth_hostname>/_/recovery
       use: code
 
     verification:
       enabled: true
-      ui_url: http://localhost:3000/verification
+      ui_url: https://<auth_hostname>/_/verification
       use: code
       after:
-        default_browser_return_url: http://localhost:3000/welcome
+        default_browser_return_url: https://<auth_hostname>/_/welcome
 
     logout:
       after:
-        default_browser_return_url: http://localhost:3000/login
+        default_browser_return_url: https://<auth_hostname>/_/login
 
     login:
-      ui_url: http://localhost:3000/login
+      ui_url: https://<auth_hostname>/_/login
       lifespan: 10m
 
     registration:
       lifespan: 10m
-      ui_url: http://localhost:3000/registration
+      ui_url: https://<auth_hostname>/_/registration
       after:
         password:
           hooks:
@@ -138,5 +139,6 @@ identity:
 #
 courier:
   smtp:
-    connection_uri: smtps://test:test@ory-mailslurper:1025/?skip_ssl_verify=true
+    connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+    from_address: no-reply@<domain_hostname>
 

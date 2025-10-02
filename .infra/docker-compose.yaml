@@ -1,4 +1,20 @@
 services:
+  nginx:
+    image: nginx:1.29-alpine
+    restart: unless-stopped
+    depends_on:
+      - ory-kratos
+      - ory-kratos-selfservice-ui
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
+      - ./.certs/wolontariusz.app.cer:/etc/nginx/ssl/wolontariusz.app.cer
+      - ./.certs/wolontariusz.app.key:/etc/nginx/ssl/wolontariusz.app.key
+    networks:
+      - internal
+
   postgres:
     image: postgres:18
     restart: unless-stopped
@@ -26,11 +42,6 @@ services:
   ory-kratos-migrate:
     image: oryd/kratos:v1.3.1
     restart: on-failure
-    # environment:
-    #   - POSTGRES_PASSWORD=$(cat /run/secrets/kratos_postgres_password)
-    #   - DSN=postgres://kratos_user:${POSTGRES_PASSWORD}@postgres:5432/kratos?sslmode=disable
-    # secrets:
-    #   - kratos_postgres_password
     volumes:
       - ./kratos:/etc/config/kratos
     command: -c /etc/config/kratos/kratos.yaml migrate sql -e --yes
@@ -46,33 +57,23 @@ services:
     depends_on:
       ory-kratos-migrate:
         condition: service_completed_successfully
-    # environment:
-    #   - POSTGRES_PASSWORD=$(cat /run/secrets/kratos_postgres_password)
-    #   - DSN=postgres://kratos_user:${POSTGRES_PASSWORD}@postgres:5432/kratos?sslmode=disable
-    # secrets:
-    #   - kratos_cookie_secret1
-    #   - kratos_cookie_secret2
-    #   - kratos_postgres_password
-    command: serve -c /etc/config/kratos/kratos.yaml all --dev
+    command: serve -c /etc/config/kratos/kratos.yaml all --watch-courier
     volumes:
       - ./kratos:/etc/config/kratos
       - ory-kratos-data:/home/ory
     ports:
-      - "127.0.0.1:4433:4433"
       - "127.0.0.1:4434:4434"
     networks:
       - internal
 
-  ory-kratos-selfservice-ui-node:
+  ory-kratos-selfservice-ui:
     image: oryd/kratos-selfservice-ui-node:v1.3.1
     restart: unless-stopped
     depends_on:
       - ory-kratos
-    ports:
-      - "127.0.0.1:3000:3000"
     environment:
       - KRATOS_PUBLIC_URL=http://ory-kratos:4433/
-      - KRATOS_BROWSER_URL=http://localhost:4433/
+      - KRATOS_BROWSER_URL=https://auth.dev.wolontariusz.app/
       - COOKIE_SECRET=youReallyNeedToChangeThis
       - CSRF_COOKIE_NAME=ory_csrf_ui
       - CSRF_COOKIE_SECRET=youReallyNeedToChangeThis
@@ -83,11 +84,6 @@ services:
   # ory-hydra-migrate:
   #   image: oryd/hydra:v2.2.0
   #   restart: on-failure
-  #   # environment:
-  #   #   - POSTGRES_PASSWORD=$(cat /run/secrets/hydra_postgres_password)
-  #   #   - DSN=postgres://hydra_user:${POSTGRES_PASSWORD}@postgres:5432/hydra?sslmode=disable
-  #   # secrets:
-  #   #   - hydra_postgres_password
   #   volumes:
   #     - ./hydra:/etc/config/hydra
   #     - ory-hydra-data:/home/ory
@@ -102,11 +98,6 @@ services:
   # ory-hydra:
   #   image: oryd/hydra:v2.2.0
   #   restart: unless-stopped
-  #   # environment:
-  #   #   - POSTGRES_PASSWORD=$(cat /run/secrets/hydra_postgres_password)
-  #   #   - DSN=postgres://hydra_user:${POSTGRES_PASSWORD}@postgres:5432/hydra?sslmode=disable
-  #   # secrets:
-  #   #   - hydra_postgres_password
   #   ports:
   #     - 127.0.0.1:4444:4444 # public
   #     - 127.0.0.1:4445:4445 # admin
@@ -124,11 +115,6 @@ services:
   # ory-keto-migrate:
   #   image: oryd/keto:v0.12.0
   #   restart: on-failure
-  #   # environment:
-  #   #   - POSTGRES_PASSWORD=$(cat /run/secrets/keto_postgres_password)
-  #   #   - DSN=postgres://keto_user:${POSTGRES_PASSWORD}@postgres:5432/keto?sslmode=disable
-  #   # secrets:
-  #   #   - keto_postgres_password
   #   volumes:
   #     - ./keto:/etc/config/keto
   #     - ory-keto-data:/home/ory
@@ -143,11 +129,6 @@ services:
   # ory-keto:
   #   image: oryd/keto:v0.12.0
   #   restart: unless-stopped
-  #   # environment:
-  #   #   - POSTGRES_PASSWORD=$(cat /run/secrets/keto_postgres_password)
-  #   #   - DSN=postgres://keto_user:${POSTGRES_PASSWORD}@postgres:5432/keto?sslmode=disable
-  #   # secrets:
-  #   #   - keto_postgres_password
   #   ports:
   #     - 127.0.0.1:4466:4466 # public
   #     - 127.0.0.1:4467:4467 # admin
@@ -161,7 +142,7 @@ services:
   #   networks:
   #     - internal
 
-  ory-mailslurper:
+  mailslurper:
     image: oryd/mailslurper:latest-smtps
     restart: unless-stopped
     ports:
@@ -176,7 +157,6 @@ volumes:
   # ory-hydra-data:
   # ory-keto-data:
 
-# TODO: improve secret loading in ory services
 secrets:
   postgres_password:
     file: ./secrets/postgres_password.txt
