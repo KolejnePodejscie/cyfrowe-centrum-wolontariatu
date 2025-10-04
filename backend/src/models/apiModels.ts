@@ -13,6 +13,10 @@ export interface Task {
     learningGoal: string;
 }
 
+export interface Tasks {
+    tasks: Task[];
+}
+
 export interface Event {
     id: string; // uuid
     title: string;

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { getUserTasksFromEvent } from "../controllers/eventController.js";
 
 const router = Router();
 
@@ -47,9 +48,12 @@ router.post("/:eventId/users/:userId", (req, res) => {
     const userId = req.params.userId;
 });
 
+// Get user tasks from event
 router.get("/:eventId/users/:userId", (req, res) => {
     const eventId = req.params.eventId;
     const userId = req.params.userId;
+    const userTasks = getUserTasksFromEvent(userId, eventId);
+    res.json(userTasks);
 });
 
 // ---------- /topics ----------
