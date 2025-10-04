@@ -16,3 +16,5 @@ export async function createOrg(org: DbOrg) {
 INSERT INTO organisations (name, description, profileimage, backgroundimage, contactinfo)
 VALUES (${org.name}, ${org.description}, ${org.profileImage}, ${org.backgroundImage}, ${org.contactInfo});`;
 }
+
+export async function getOrgEvents(orgId: string) {}

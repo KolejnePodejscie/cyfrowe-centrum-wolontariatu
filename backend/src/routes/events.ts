@@ -1,11 +1,26 @@
 import { Router } from "express";
 import { getUserTasksFromEvent } from "../controllers/eventController.js";
+import { requireAuth } from "../auth.js";
+import { upload } from "../upload.js";
+import { CreateEventData } from "../requests.js";
+import * as eventController from "../controllers/eventController.js";
 
 const router = Router();
 
 router.get("/", (req, res) => {});
 
-router.post("/", (req, res) => {});
+router.post("/", requireAuth, upload.array("image", 2), (req, res) => {
+    const fileIds = [];
+    for (const file of req.files as Express.Multer.File[]) {
+        fileIds.push(file.filename);
+    }
+
+    const eventData = JSON.parse(req.body.eventData) as CreateEventData;
+    console.log(eventData);
+    eventController.createEvent(eventData, fileIds);
+
+    res.sendStatus(201);
+});
 
 router.get("/:eventId", (req, res) => {
     const eventId = req.params.eventId;

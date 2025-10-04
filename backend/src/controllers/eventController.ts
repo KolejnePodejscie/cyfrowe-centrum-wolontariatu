@@ -1,14 +1,26 @@
+import { CreateEventData } from "../requests.js";
+import { Task } from "../models/apiModels.js";
 import sql from "../db.js";
-import { Tasks } from "../models/apiModels.js";
-import { CreateUserData } from "../requests.js";
-
-export async function createEvent(event: CreateUserData) {}
 
 export async function getUserTasksFromEvent(userId: string, eventId: string) {
     const userTasks = await sql<
-        Tasks[]
+        Task[]
     >`SELECT t.id, t.description, t.goal as learningGoal 
     FROM eventtasks as t JOIN taskassignment as ta ON t.id = ta.taskId 
     WHERE ta.volounteerId = ${userId} AND t.eventId = ${eventId}`;
-    return userTasks as Tasks[];
+    return userTasks as Task[];
+}
+export async function createEvent(event: CreateEventData, images: string[]) {
+    await sql.begin(async (tx) => {
+        const res = await tx`
+INSERT INTO events (title, description, latitude, longitude, startDate, endDate, organisationid)
+VALUES (${event.title}, ${event.description}, ${event.latitude}, ${event.longitude}, ${event.startDate}, ${event.endDate}, ${event.organisationId})
+RETURNING id;
+`;
+        const eventId = res[0].id;
+
+        for (const imageId of images) {
+            await tx`INSERT INTO eventimages VALUES (${eventId}, ${imageId});`;
+        }
+    });
 }
