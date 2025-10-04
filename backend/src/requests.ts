@@ -1,5 +1,6 @@
 export interface CreateUserData {
     displayName: string;
+    description: string;
 }
 
 export interface CreateEventData {

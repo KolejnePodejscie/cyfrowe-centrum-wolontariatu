@@ -5,8 +5,8 @@ import { Event, UserEvents, UserHoursWorked } from "../models/apiModels.js";
 
 export async function createUser(user: DbUser) {
     await sql`
-INSERT INTO users (displayname, description, email, profileimage) 
-VALUES (${user.displayName}, ${user.description}, ${user.email}, ${user.profileImage});`;
+INSERT INTO users (id, displayname, description, email, profileimage) 
+VALUES (${user.id}, ${user.displayName}, ${user.description}, ${user.email}, ${user.profileImage});`;
 }
 
 export async function ownsOrg(userId: string, orgId: string) {

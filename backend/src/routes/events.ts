@@ -16,7 +16,6 @@ router.post("/", requireAuth, upload.array("image", 2), (req, res) => {
     }
 
     const eventData = JSON.parse(req.body.eventData) as CreateEventData;
-    console.log(eventData);
     eventController.createEvent(eventData, fileIds);
 
     res.sendStatus(201);

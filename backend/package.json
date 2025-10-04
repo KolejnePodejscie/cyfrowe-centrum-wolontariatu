@@ -7,7 +7,7 @@
         "migrate": "node ./scripts/migrate.js",
         "dev": "tsx watch ./src/index.ts",
         "build": "tsc",
-        "clean": "rm -r dist"
+        "clean": "rm -r dist && rm uploads/*"
     },
     "type": "module",
     "devDependencies": {
