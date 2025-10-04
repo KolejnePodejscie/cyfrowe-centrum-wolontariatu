@@ -24,6 +24,7 @@
         "pino-http": "^10.5.0",
         "pino-pretty": "^13.1.1",
         "postgres": "^3.4.7",
+        "postgres-shift": "^0.1.0",
         "zod": "^4.1.11"
     }
 }
