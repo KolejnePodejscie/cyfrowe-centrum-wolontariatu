@@ -83,3 +83,7 @@ export interface UserEvents extends UserMinimal {
     description: string; // user description,
     events: Event[];
 }
+
+export interface Volounteer extends UserMinimal {
+    isaccepted: boolean;
+}

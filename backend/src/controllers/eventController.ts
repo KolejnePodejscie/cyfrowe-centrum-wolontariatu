@@ -1,5 +1,5 @@
 import { CreateEventData } from "../requests.js";
-import { Task, UserMinimal } from "../models/apiModels.js";
+import { Task, UserMinimal, Volounteer } from "../models/apiModels.js";
 import sql from "../db.js";
 
 export async function getUserTasksFromEvent(userId: string, eventId: string) {
@@ -27,8 +27,8 @@ RETURNING id;
 
 export async function getEventVolunteerss(eventId: string) {
     const eventVolunteers = sql<
-        UserMinimal[]
-    >`SELECT u.id, u.displayName FROM users as u
+        Volounteer[]
+    >`SELECT u.id, u.displayName, ev.isAccepted FROM users as u
     JOIN eventVolunteer as ev ON u.id = ev.volunteerId
     WHERE ev.eventId = ${eventId};
 `;
