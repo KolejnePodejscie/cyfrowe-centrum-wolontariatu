@@ -6,7 +6,7 @@ import { Event, UserEvents, UserHoursWorked } from "../models/apiModels.js";
 export async function createUser(user: DbUser) {
     await sql`
 INSERT INTO users (id, displayname, description, email, profileimage) 
-VALUES (${user.id}, ${user.displayName}, ${user.description}, ${user.email}, ${user.profileImage});`;
+VALUES (${user.id}, ${user.displayName}, ${user.description}, ${user.email}, ${user.profileImage ?? null});`;
 }
 
 export async function ownsOrg(userId: string, orgId: string) {
@@ -43,10 +43,5 @@ export async function getUserEvents(userId: string) {
     JOIN taskAssignment as ta ON et.Id = ta.taskId
     WHERE ta.volounterId = ${userId}`;
 
-    const userWithEvents: UserEvents = {
-        id: userId,
-        displayName: userData[0].displayName,
-        description: userData[0].description,
-        events: userEvents as Event[],
-    };
+    return userEvents;
 }

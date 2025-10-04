@@ -33,8 +33,10 @@ router.patch("/:orgId", requireAuth, async (req, res) => {
     res.sendStatus(204);
 });
 
-router.get("/:orgId/events", (req, res) => {
+router.get("/:orgId/events", async (req, res) => {
     const orgId = req.params.orgId;
+    const events = Array.from(await orgController.getOrgEvents(orgId));
+    res.json(events);
 });
 
 export default router;

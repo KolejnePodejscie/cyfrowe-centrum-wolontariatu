@@ -23,7 +23,7 @@ router.get("/", requireAuth, async (req, res) => {
 router.post("/", requireAuth, upload.single("image"), async (req, res) => {
     const body = JSON.parse(req.body.userData) as CreateUserData;
 
-    const fileId = req.file!.filename;
+    const fileId = req.file?.filename;
     const user: DbUser = {
         id: req.session.data.identity.id,
         description: body.description,
@@ -37,25 +37,17 @@ router.post("/", requireAuth, upload.single("image"), async (req, res) => {
     res.sendStatus(201);
 });
 
-// Get user past events withput tasks
+// Get user past events without tasks
 router.get("/:userId", async (req, res) => {
-    const userEvents = await userController.getUserEvents(
-        req.session.data.identity?.id
-    );
     const userId = req.params.userId;
     try {
-        const userEvents = await userController.getUserEvents(userId);
+        const userEvents = Array.from(
+            await userController.getUserEvents(userId)
+        );
         res.json(userEvents);
     } catch {
         res.sendStatus(404);
     }
 });
-
-router.put("/:userId", (req, res) => {
-    const userId = req.params.userId;
-    res.sendStatus(418);
-});
-
-router.get("/:userId/events", (req, res) => {});
 
 export default router;

@@ -4,7 +4,7 @@ export interface DbUser {
     description: string;
     email: string;
     isAdult: boolean;
-    profileImage: string;
+    profileImage?: string;
 }
 
 export interface DbOrg {
