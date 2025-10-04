@@ -1,10 +1,20 @@
 import { Router } from "express";
-import { requireAuth } from "../auth.js";
+import { isAdmin, requireAuth } from "../auth.js";
+import { getUsers } from "../controllers/userController.js";
 
 const router = Router();
 
-router.get("/", requireAuth, (req, res) => {
-    res.sendStatus(418);
+router.get("/", requireAuth, async (req, res) => {
+    if (await isAdmin(req.session.data.identity?.id)) {
+        try {
+            const users = await getUsers();
+            res.json(users);
+        } catch (err) {
+            res.sendStatus(404);
+        }
+    } else {
+        res.sendStatus(403);
+    }
 });
 
 router.post("/", requireAuth, (req, res) => {

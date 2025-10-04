@@ -3,11 +3,6 @@ export interface UserMinimal {
     displayName: string;
 }
 
-export interface UserMin {
-    id: string; // uuid
-    displayName: string;
-}
-
 // export interface OrgParticipant {}
 
 export interface Task {
@@ -77,4 +72,7 @@ export interface User extends UserMinimal {
     organisations: Organisation[];
     pastEvents: EventWithTasks[];
     description: string;
+}
+export interface UserHoursWorked extends UserMinimal {
+    hoursWorked: number;
 }
