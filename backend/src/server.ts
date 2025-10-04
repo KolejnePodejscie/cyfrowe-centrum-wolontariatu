@@ -1,6 +1,8 @@
 import express, { type Express } from "express";
 import { logger } from "./logger.js";
 import { pinoHttp } from "pino-http";
+import router from "./routes/index.js";
+import { errorHandler, notFound } from "./middleware.js";
 
 const app: Express = express();
 
@@ -11,19 +13,12 @@ app.set("trust proxy", true);
 app.use(pinoHttp({ logger: logger }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.text());
 // app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
 
-// Request logging
-// app.use(requestLogger);
+app.use("/", router);
 
-// Routes
-// app.use("/health-check", healthCheckRouter);
-// app.use("/users", userRouter);
-
-// Swagger UI
-// app.use(openAPIRouter);
-
-// Error handlers
-// app.use(errorHandler());
+app.use(notFound);
+app.use(errorHandler);
 
 export { app };

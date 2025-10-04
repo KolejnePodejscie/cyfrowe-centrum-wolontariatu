@@ -5,7 +5,7 @@
     "scripts": {
         "start": "node ./dist/index.js",
         "migrate": "node ./scripts/migrate.js",
-        "dev": "tsx watch --clear-screen=false ./src/index.ts",
+        "dev": "tsx watch ./src/index.ts",
         "build": "tsc",
         "clean": "rm -r dist"
     },
