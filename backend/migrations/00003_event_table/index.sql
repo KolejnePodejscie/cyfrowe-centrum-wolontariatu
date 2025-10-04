@@ -7,5 +7,5 @@ CREATE TABLE IF NOT EXISTS events(
     startDate TIMESTAMPTZ,
     endDate TIMESTAMPTZ,
     oragnisationId UUID NOT NULL,
-    FOREIGN KEY (oragnisationId) REFERENCES oranisations (id) ON DELETE CASCADE
+    FOREIGN KEY (oragnisationId) REFERENCES organisations (id) ON DELETE CASCADE
 );
