@@ -1,3 +1,5 @@
+import { extend } from "zod/mini";
+
 export interface UserMinimal {
     id: string; // uuid
     displayName: string;
@@ -9,23 +11,18 @@ export interface Task {
     id: string; // uuid
     description: string;
     learningGoal: string;
-    tags: string[];
-}
-
-export interface Location {
-    latitude: string;
-    longitude: string;
 }
 
 export interface Event {
     id: string; // uuid
     title: string;
     description: string;
-    location: Location;
     organisationId: string; // uuid
-    imageUrls: string[]; // uri
+    image: string; // blob uuid
     startDate: string; // date-time
     endDate: string; // date-time
+    latitude: number;
+    longitude: number;
 }
 
 export interface EventWithTasks extends Event {
@@ -76,4 +73,9 @@ export interface User extends UserMinimal {
 }
 export interface UserHoursWorked extends UserMinimal {
     hoursWorked: number;
+}
+
+export interface UserEvents extends UserMinimal {
+    description: string; // user description,
+    events: Event[];
 }

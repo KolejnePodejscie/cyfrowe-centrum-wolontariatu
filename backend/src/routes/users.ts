@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { isAdmin, requireAuth } from "../auth.js";
-import { getUsers } from "../controllers/userController.js";
+import { getUserEvents, getUsers } from "../controllers/userController.js";
 
 const router = Router();
 
@@ -17,19 +17,21 @@ router.get("/", requireAuth, async (req, res) => {
     }
 });
 
+// Register user
 router.post("/", requireAuth, (req, res) => {
     const body = JSON.parse(req.body);
 });
 
-router.get("/:userId", (req, res) => {
+// Get user past events withput tasks
+router.get("/:userId", async (req, res) => {
+    const userEvents = await getUserEvents(req.session.data.identity?.id);
     const userId = req.params.userId;
 });
 
+// TODO EDIT USER
 router.put("/:userId", (req, res) => {
     const userId = req.params.userId;
     res.sendStatus(418);
 });
-
-router.get("/:userId/events", (req, res) => {});
 
 export default router;

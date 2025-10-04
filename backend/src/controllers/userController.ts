@@ -1,7 +1,7 @@
 import sql from "../db.js";
 import { logger } from "../logger.js";
 import { DbUser } from "../models/dbModels.js";
-import { UserHoursWorked } from "../models/apiModels.js";
+import { Event, UserEvents, UserHoursWorked } from "../models/apiModels.js";
 
 export async function createUser(user: DbUser) {
     await sql`
@@ -26,4 +26,27 @@ export async function getUsers() {
 SELECT u.id, u.displayName, SUM(ta.hoursWorked) FROM users as u JOIN taskAssignment as ta ON u.id = ta.volounteerId`;
     if (!users.length) throw new Error("Not found");
     return users;
+}
+
+export async function getUserEvents(userId: string) {
+    const userData =
+        await sql`SELECT id as UserId, description, displayName FROM users WHERE id = ${userId}`;
+    // const userDisplayName: string = "";
+
+    if (!userData.length) {
+        throw new Error("User not found");
+    }
+
+    const userEvents = await sql<
+        Event[]
+    >`SELECT e.id, e.title, e.description, e.latitude, e.longitude, e.organisationId, e.eventImage, e.startDate, e.endDate FROM (events as e JOIN eventTasks as et ON e.Id = et.eventId) 
+    JOIN taskAssignment as ta ON et.Id = ta.taskId
+    WHERE ta.volounterId = ${userId}`;
+
+    const userWithEvents: UserEvents = {
+        id: userId,
+        displayName: userData[0].displayName,
+        description: userData[0].description,
+        events: userEvents as Event[],
+    };
 }
