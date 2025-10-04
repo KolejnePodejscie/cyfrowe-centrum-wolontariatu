@@ -19,10 +19,10 @@ export function NavigationMenuDemo() {
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/statystyki">Statystyki</NavigationMenuLink>
+            <NavigationMenuLink href="/organizacje">Organizacje</NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/weryfikacja">Weryfikacja</NavigationMenuLink>
+            <NavigationMenuLink href="/wolontariusze">Wolontariusze</NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink href="/wydarzenia">Wydarzenia</NavigationMenuLink>

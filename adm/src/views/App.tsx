@@ -22,12 +22,12 @@ function App() {
               </CardContent>
             </Card>
           </Link>
-          <Link to="/statystyki">
+          <Link to="/wolontariusze">
             <Card className="h-72">
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <BarChart2 size={24} />
-                  <CardTitle>Statystyki</CardTitle>
+                  <CardTitle>Wolontariusze</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
@@ -40,7 +40,7 @@ function App() {
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 size={24} />
-                  <CardTitle>Weryfikacja</CardTitle>
+                  <CardTitle>Organizacje</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>

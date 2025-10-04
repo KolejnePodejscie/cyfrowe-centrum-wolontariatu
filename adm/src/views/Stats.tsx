@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowUp, ArrowDown, ArrowUpDown, ArrowDownUp, ArrowUpAZ, ArrowDownAZ, ArrowUp01, ArrowDown01 } from "lucide-react";
+import { ArrowUpDown, ArrowDownUp, ArrowUpAZ, ArrowDownAZ, ArrowUp01, ArrowDown01, Info } from "lucide-react";
 import { NavigationMenuDemo } from "../els/navbar";
 import {
   Table,
@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Configuration, DefaultApi, type GetUsers200ResponseInner } from "../../generated";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 
 function Stats() {
   const [users, setUsers] = useState<GetUsers200ResponseInner[]>([]);
@@ -23,20 +25,20 @@ function Stats() {
     const api = new DefaultApi(config);
     api.getUsers().then(res => {
       setUsers(res);
-    setUsers([{
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "displayName": "string",
-      "hours": 0
-    }, {
-      "id": "2fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "displayName": "astring",
-      "hours": 22
-    }, {
-      "id": "4fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "displayName": "xstring",
-      "hours": 5
-    }
-    ])
+      setUsers([{
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "displayName": "string",
+        "hours": 0
+      }, {
+        "id": "2fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "displayName": "astring",
+        "hours": 22
+      }, {
+        "id": "4fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "displayName": "xstring",
+        "hours": 5
+      }
+      ])
       setIsLoading(false);
     });
   }, []);
@@ -67,30 +69,32 @@ function Stats() {
         <Table>
           <TableHeader>
             <TableRow>
-                <TableHead
-                  className="cursor-pointer select-none"
-                  onClick={() => handleSort("name")}
-                >
-                  Nazwa użytkownika  
-                  {sortBy === "name" &&
-                    (sortDir === "asc" ? (
-                      <ArrowUpAZ className="ml-1 w-4 h-4 inline" />
-                    ) : (
-                      <ArrowDownAZ className="ml-1 w-4 h-4 inline" />
-                    )) || <ArrowDownUp className="ml-1 w-4 h-4 inline" />}
-                </TableHead>
-                <TableHead
-                  className="cursor-pointer select-none"
-                  onClick={() => handleSort("hours")}
-                >
-                  Godziny wolontariatu  
-                  {sortBy === "hours" &&
-                    (sortDir === "asc" ? (
-                      <ArrowUp01 className="ml-1 w-4 h-4 inline" />
-                    ) : (
-                      <ArrowDown01 className="ml-1 w-4 h-4 inline" />
-                    )) || <ArrowUpDown className="ml-1 w-4 h-4 inline" />}
-                </TableHead>
+              <TableHead
+                className="cursor-pointer select-none"
+                onClick={() => handleSort("name")}
+              >
+                Nazwa użytkownika
+                {sortBy === "name" &&
+                  (sortDir === "asc" ? (
+                    <ArrowUpAZ className="ml-1 w-4 h-4 inline" />
+                  ) : (
+                    <ArrowDownAZ className="ml-1 w-4 h-4 inline" />
+                  )) || <ArrowDownUp className="ml-1 w-4 h-4 inline" />}
+              </TableHead>
+              <TableHead
+                className="cursor-pointer select-none"
+                onClick={() => handleSort("hours")}
+              >
+                Godziny wolontariatu
+                {sortBy === "hours" &&
+                  (sortDir === "asc" ? (
+                    <ArrowUp01 className="ml-1 w-4 h-4 inline" />
+                  ) : (
+                    <ArrowDown01 className="ml-1 w-4 h-4 inline" />
+                  )) || <ArrowUpDown className="ml-1 w-4 h-4 inline" />}
+              </TableHead>
+              <TableHead>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -103,6 +107,11 @@ function Stats() {
                   <TableCell>
                     <Skeleton className="h-8 w-full" />
                   </TableCell>
+                  <TableCell className="text-center">
+                    <Button variant="outline" disabled>
+                      Szczegóły
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
@@ -110,6 +119,13 @@ function Stats() {
                 <TableRow key={user.id}>
                   <TableCell>{user.displayName}</TableCell>
                   <TableCell>{user.hours}</TableCell>
+                  <TableCell className="text-center">
+                    <Button variant="outline">
+                      <Link to={"/wolontariusz/" + user.id} className="flex items-center gap-1">
+                        <Info />Szczegóły
+                      </Link>
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))
             )}
