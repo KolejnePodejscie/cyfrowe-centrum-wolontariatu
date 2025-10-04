@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { Error as ApiError } from "./models/apiModels.js";
 
 export const notFound = (req: Request, res: Response, next: NextFunction) => {
     const error = new Error(`Not Found - ${req.originalUrl}`);
@@ -15,7 +16,8 @@ export const errorHandler = (
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
     res.status(statusCode);
     res.json({
-        message: err.message,
-        stack: process.env.NODE_ENV === "production" ? undefined : err.stack,
-    });
+        title: err.message,
+        description:
+            process.env.NODE_ENV === "production" ? undefined : err.stack,
+    } satisfies ApiError);
 };
