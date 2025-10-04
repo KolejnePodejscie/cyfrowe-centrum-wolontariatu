@@ -1,11 +1,10 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { DefaultApi, Configuration, type Event } from "../../generated";
-import { NavigationMenuDemo } from "../els/navbar";
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button"
-import { Link } from "react-router";
-import { Info } from "lucide-react";
+import { LucideDatabase } from "lucide-react";
+import DialogF from "@/els/dialog";
 
 function Events() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -22,33 +21,39 @@ function Events() {
   }, [])
 
   return (
-    <div className="flex min-h-svh flex-col">
-      <NavigationMenuDemo />
-      <main className="container mx-auto px-4 py-8 space-y-8">
+    <main className="container mx-auto px-4 py-8 space-y-8">
+      <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold mb-2">Wydarzenia</h2>
-        <div className="grid gap-6">
-          {isLoading
-            ? Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton key={i} className="mt-4 w-full h-40" />
-            ))
-            : events.map(event => (
-              <Card key={event.id}>
-                <CardHeader>
-                  <CardTitle>{event.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {event.description}
-                </CardContent>
-                <CardFooter className="flex justify-end">
-                  <Button variant="outline" className="flex items-center gap-1">
-                    <Info />Szczegóły
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-        </div>
-      </main>
-    </div>
+        <a href="https://api.dev.wolontariusz.app/e/events.csv"
+          className="flex items-center gap-1">
+          <Button variant="outline">
+            <LucideDatabase />Eksport danych
+          </Button>
+        </a>
+      </div >
+      <div className="grid gap-6">
+        {isLoading
+          ? Array.from({ length: 3 }).map((_, i) => (
+            <Skeleton key={i} className="mt-4 w-full h-40" />
+          ))
+          : events.map(event => (
+            <Card key={event.id}>
+              <CardHeader>
+                <CardTitle>{event.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                Organizator: {event.organisationName}<br />
+                {event.description}
+              </CardContent>
+              <CardFooter className="flex justify-end">
+                <DialogF
+                  req={() => event}
+                />
+              </CardFooter>
+            </Card>
+          ))}
+      </div>
+    </main >
   )
 }
 
