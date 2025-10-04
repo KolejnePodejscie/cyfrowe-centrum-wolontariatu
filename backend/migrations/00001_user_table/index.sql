@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     displayname VARCHAR(48) NOT NULL,
     description TEXT, 
     email CITEXT NOT NULL,
-    isAdult BOOLEAN NOT NULL,
+    isAdult BOOLEAN NOT NULL DEFAULT false,
     proileImage TEXT,
     createdAt TIMESTAMPTZ NOT NULL DEFAULT now()
 );
