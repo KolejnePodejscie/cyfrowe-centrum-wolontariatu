@@ -11,4 +11,8 @@ router.put("/:orgId", (req, res) => {
     res.sendStatus(418);
 });
 
+router.get("/:orgId/events", (req, res) => {
+    const orgId = req.params.orgId;
+});
+
 export default router;

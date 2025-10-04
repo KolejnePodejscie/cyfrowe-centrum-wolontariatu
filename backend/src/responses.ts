@@ -1,4 +1,4 @@
-import { Task, Error } from "./models.js";
+import { Task, Error } from "./models/apiModels.js";
 
 // --- Responses ---
 

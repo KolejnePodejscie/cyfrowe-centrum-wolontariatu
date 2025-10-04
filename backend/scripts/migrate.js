@@ -1,9 +1,8 @@
-import shift from 'postgres-shift';
-import postgres from 'postgres';
-import { fileURLToPath } from 'url';
+import shift from "postgres-shift";
+import postgres from "postgres";
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import dotenvExpand from "dotenv-expand";
-
 
 const env = dotenv.config();
 dotenvExpand.expand(env);
@@ -25,19 +24,20 @@ dotenvExpand.expand(env);
 //     idle_timeout: 1,
 // });
 
-console.log(process.env.DB_URL);
-
 export const sql = postgres(process.env.DB_URL);
 
 shift({
     sql,
-    path: fileURLToPath(new URL('.././migrations', import.meta.url)),
+    path: fileURLToPath(new URL(".././migrations", import.meta.url)),
     before: ({ migration_id, name }) => {
-        console.log('Migrating', migration_id, name);
+        console.log("Migrating", migration_id, name);
     },
 })
-    .then(() => console.log('All good'))
+    .then(() => {
+        console.log("All good");
+        process.exit(0);
+    })
     .catch((err) => {
-        console.error('Failed', err);
+        console.error("Failed", err);
         process.exit(1);
     });

@@ -7,6 +7,7 @@ declare global {
             DB_USER: string;
             DB_NAME: string;
             DB_URL: string;
+            ORY_URL: string;
         }
     }
 }

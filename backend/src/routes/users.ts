@@ -1,8 +1,13 @@
 import { Router } from "express";
+import { requireAuth } from "../auth.js";
 
 const router = Router();
 
-router.get("/", (req, res) => {});
+router.get("/", requireAuth, (req, res) => {});
+
+router.post("/", requireAuth, (req, res) => {
+    const body = JSON.parse(req.body);
+});
 
 router.get("/:userId", (req, res) => {
     const userId = req.params.userId;
