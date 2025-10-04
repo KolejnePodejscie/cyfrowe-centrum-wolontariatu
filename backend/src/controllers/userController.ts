@@ -3,10 +3,10 @@ import { logger } from "../logger.js";
 import { DbUser } from "../models/dbModels.js";
 import { UserHoursWorked } from "../models/apiModels.js";
 
-export async function createUser(data: DbUser) {
+export async function createUser(user: DbUser) {
     await sql`
 INSERT INTO users (displayname, description, email, profileimage) 
-VALUES (${data.displayName}, ${data.description}, ${data.email}, ${data.profileImage});`;
+VALUES (${user.displayName}, ${user.description}, ${user.email}, ${user.profileImage});`;
 }
 
 export async function ownsOrg(userId: string, orgId: string) {
