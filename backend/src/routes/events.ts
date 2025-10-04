@@ -25,10 +25,12 @@ router.post("/", requireAuth, upload.array("image", 2), (req, res) => {
     res.sendStatus(201);
 });
 
+// Get event info
 router.get("/:eventId", (req, res) => {
     const eventId = req.params.eventId;
 });
 
+// Edit event
 router.put("/:eventId", (req, res) => {
     const eventId = req.params.eventId;
 });
@@ -41,15 +43,12 @@ router.get("/:eventId/tasks", (req, res) => {
     res.json(eventTasks);
 });
 
+// Add task to event
 router.post("/:eventId/tasks", (req, res) => {
     const eventId = req.params.eventId;
 });
 
-router.post("/:eventId/tasks/:taskId", (req, res) => {
-    const eventId = req.params.eventId;
-    const taskId = req.params.taskId;
-});
-
+// Get task info
 router.get("/:eventId/tasks/:taskId", (req, res) => {
     const eventId = req.params.eventId;
     const taskId = req.params.taskId;
@@ -63,10 +62,13 @@ router.get("/:eventId/users", async (req, res) => {
     res.json(eventVolunteers);
 });
 
-router.put("/:eventId/users", (req, res) => {
+// change user to accepted or delete from event
+router.put("/:eventId/users/:userId", (req, res) => {
     const eventId = req.params.eventId;
+    const userId = req.params.userId;
 });
 
+// Add user to event pending
 router.post("/:eventId/users/:userId", (req, res) => {
     const eventId = req.params.eventId;
     const userId = req.params.userId;
@@ -78,24 +80,6 @@ router.get("/:eventId/users/:userId", (req, res) => {
     const userId = req.params.userId;
     const userTasks = getUserTasksFromEvent(userId, eventId);
     res.json(userTasks);
-});
-
-// ---------- /topics ----------
-router.get("/:eventId/topics", (req, res) => {
-    const eventId = req.params.eventId;
-});
-
-router.post("/:eventId/topics", (req, res) => {
-    const eventId = req.params.eventId;
-});
-
-router.get("/:eventId/topics/:topicId", (req, res) => {
-    const eventId = req.params.eventId;
-    const topicId = req.params.topicId;
-});
-
-router.post("/:eventId/topics/comments", (req, res) => {
-    const eventId = req.params.eventId;
 });
 
 export default router;
