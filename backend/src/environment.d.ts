@@ -8,6 +8,7 @@ declare global {
             DB_NAME: string;
             DB_URL: string;
             ORY_URL: string;
+            MOCK_COOKIE: string;
         }
     }
 }

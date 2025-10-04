@@ -3,7 +3,9 @@ import { requireAuth } from "../auth.js";
 
 const router = Router();
 
-router.get("/", requireAuth, (req, res) => {});
+router.get("/", requireAuth, (req, res) => {
+    res.sendStatus(418);
+});
 
 router.post("/", requireAuth, (req, res) => {
     const body = JSON.parse(req.body);
