@@ -5,6 +5,7 @@ declare global {
             PORT: number;
             DB_PASS: string;
             DB_USER: string;
+            DB_NAME: string;
             DB_URL: string;
         }
     }
