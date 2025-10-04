@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import dotenvExpand from "dotenv-expand";
 import axios from "axios";
 import https from "node:https";
+import sql from "./db.js";
 
 const env = dotenv.config();
 dotenvExpand.expand(env);
@@ -38,3 +39,8 @@ export const requireAuth = async (
         res.sendStatus(401);
     }
 };
+
+export async function isAdmin(userId: string) {
+    const rows = await sql`SELECT isAdmin FROM users WHERE id = ${userId}`;
+    return rows[0].isAdmin;
+}
