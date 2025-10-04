@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+    getEventTasks,
     getEventVolunteerss,
     getUserTasksFromEvent,
 } from "../controllers/eventController.js";
@@ -33,8 +34,11 @@ router.put("/:eventId", (req, res) => {
 });
 
 //  ----------/tasks ----------
+// Get event tasks
 router.get("/:eventId/tasks", (req, res) => {
     const eventId = req.params.eventId;
+    const eventTasks = getEventTasks(eventId);
+    res.json(eventTasks);
 });
 
 router.post("/:eventId/tasks", (req, res) => {

@@ -34,3 +34,11 @@ export async function getEventVolunteerss(eventId: string) {
 `;
     return eventVolunteers;
 }
+
+export async function getEventTasks(eventId: string) {
+    const eventTasks = await sql<
+        Task[]
+    >`SELECT t.id, t.description, t.goal as learningGoal FROM tasks as t WHERE t.eventId = ${eventId};
+`;
+    return eventTasks as Task[];
+}
