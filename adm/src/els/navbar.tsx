@@ -10,7 +10,7 @@ import {
 
 export function NavigationMenuDemo() {
   return (
-    <header className="flex h-12 m-2">
+    <header className="flex h-14 m-2">
       <NavigationMenu viewport={false}>
         <NavigationMenuList>
           <NavigationMenuItem>
@@ -19,13 +19,13 @@ export function NavigationMenuDemo() {
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/wydarzenia">Wydarzenia</NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
             <NavigationMenuLink href="/statystyki">Statystyki</NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink href="/weryfikacja">Weryfikacja</NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/wydarzenia">Wydarzenia</NavigationMenuLink>
           </NavigationMenuItem>
 
           <NavigationMenuItem className="ml-auto">
