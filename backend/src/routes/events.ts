@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { getUserTasksFromEvent } from "../controllers/eventController.js";
+import {
+    getEventVolunteerss,
+    getUserTasksFromEvent,
+} from "../controllers/eventController.js";
 import { requireAuth } from "../auth.js";
 import { upload } from "../upload.js";
 import { CreateEventData } from "../requests.js";
@@ -49,8 +52,11 @@ router.get("/:eventId/tasks/:taskId", (req, res) => {
 });
 
 //  ----------/users ----------
-router.get("/:eventId/users", (req, res) => {
+// Get users for event
+router.get("/:eventId/users", async (req, res) => {
     const eventId = req.params.eventId;
+    const eventVolunteers = getEventVolunteerss(eventId);
+    res.json(eventVolunteers);
 });
 
 router.put("/:eventId/users", (req, res) => {
