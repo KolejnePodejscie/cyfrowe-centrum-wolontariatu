@@ -10,6 +10,9 @@ router.get("/:userId", (req, res) => {
 
 router.put("/:userId", (req, res) => {
     const userId = req.params.userId;
+    res.sendStatus(418);
 });
+
+router.get("/:userId/events", (req, res) => {});
 
 export default router;

@@ -11,9 +11,9 @@ export interface UserMin {
 // export interface OrgParticipant {}
 
 export interface Task {
-    id?: number;
+    id: number;
     description: string;
-    learningGoal?: string;
+    learningGoal: string;
     tags: string[];
 }
 
@@ -24,7 +24,7 @@ export interface Location {
 }
 
 export interface Event {
-    id?: string; // uuid
+    id: string; // uuid
     title: string;
     description: string;
     location: Location;
@@ -39,7 +39,7 @@ export interface EventWithTasks extends Event {
 }
 
 export interface Organisation {
-    id?: string; // uuid
+    id: string; // uuid
     name: string;
     description: string;
     imageUrls: string[]; // uri
