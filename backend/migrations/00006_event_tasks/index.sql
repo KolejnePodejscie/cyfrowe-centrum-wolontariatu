@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS eventTasks(
     eventId UUID NOT NULL,[]
     FOREIGN KEY (eventId) REFERENCES events (id) ON DELETE CASCADE,
     description TEXT NOT NULL DEFAULT '',
-    goal TEXT NOT NULL DEFAULT '',
+    goal TEXT NOT NULL DEFAULT ''
 );

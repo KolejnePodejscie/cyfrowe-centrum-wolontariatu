@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS eventVolunteer(
     FOREIGN KEY (volunteerId) REFERENCES users (id) ON DELETE CASCADE,
     PRIMARY KEY (eventId, volunteerId)
     
-    isAccepted BOOLEAN NOT NULL DEFAULT false,
+    isAccepted BOOLEAN NOT NULL DEFAULT false
 );
 

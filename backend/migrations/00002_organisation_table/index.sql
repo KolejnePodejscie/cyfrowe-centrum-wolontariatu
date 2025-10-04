@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS organisation (
     name TEXT NOT NULL,
     description TEXT NOT NULL DEFAULT '',
     profileImage TEXT,
-    backgroundImage TEXT,
+    backgroundImage TEXT
 );
