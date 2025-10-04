@@ -6,5 +6,13 @@ export async function verifyOrg(orgId: string) {
 }
 
 export async function getAllOrgs() {
-    return await sql<DbOrg[]>`SELECT * FROM organisations;`;
+    return await sql<
+        DbOrg[]
+    >`SELECT * FROM organisations WHERE isverified = True;`;
+}
+
+export async function createOrg(org: DbOrg) {
+    await sql`
+INSERT INTO organisations (name, description, profileimage, backgroundimage, contactinfo)
+VALUES (${org.name}, ${org.description}, ${org.profileImage}, ${org.backgroundImage}, ${org.contactInfo});`;
 }

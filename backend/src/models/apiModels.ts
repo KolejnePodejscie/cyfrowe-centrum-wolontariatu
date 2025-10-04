@@ -38,6 +38,8 @@ export interface Organisation {
     description: string;
     profileImage: string;
     backgroundImage: string;
+    isVerified: boolean;
+    contactInfo: string;
 }
 
 export interface Error {

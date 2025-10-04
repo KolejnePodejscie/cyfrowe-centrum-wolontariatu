@@ -8,7 +8,7 @@ export interface DbUser {
 }
 
 export interface DbOrg {
-    id: string;
+    id?: string;
     name: string;
     description: string;
     isVerified: boolean;
