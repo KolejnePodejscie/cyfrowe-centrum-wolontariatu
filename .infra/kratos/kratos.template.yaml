@@ -128,10 +128,18 @@ hashers:
 # Documentation: https://www.ory.sh/docs/kratos/manage-identities/identity-schema
 #
 identity:
-  default_schema_id: default
+  default_schema_id: email
   schemas:
-    - id: default
+    - id: email
       url: file:///etc/config/kratos/identity.schema.json
+  # default_schema_id: volunteer
+  # schemas:
+  #   - id: volunteer
+  #     url: file:///etc/config/kratos/volunteer.schema.json
+  #   - id: coordinator
+  #     url: file:///etc/config/kratos/coordinator.schema.json
+  #   - id: admin
+  #     url: file:///etc/config/kratos/admin.schema.json
 
 #
 # Configure the mailing service.

@@ -28,10 +28,16 @@ init:
 
 
 deep-clean:
-	rm secrets/*.txt kratos/kratos.yaml keto/keto.yaml hydra/hydra.yaml
+	rm secrets/*.txt || true
+	rm kratos/kratos.yaml keto/keto.yaml hydra/hydra.yaml || true
 	docker volume rm \
-		infra_ory-hydra-data infra_ory-keto-data \
 		infra_ory-kratos-data infra_pg-data
+	# docker volume rm \
+	# 	infra_ory-hydra-data infra_ory-keto-data \
+	# 	infra_ory-kratos-data infra_pg-data
 
 up:
 	docker compose up -d
+
+down:
+	docker compose down

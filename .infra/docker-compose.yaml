@@ -143,7 +143,7 @@ services:
   #     - internal
 
   mailslurper:
-    image: oryd/mailslurper:latest-smtps
+    image: futurefamily/mailslurper
     restart: unless-stopped
     ports:
       - 127.0.0.1:4436:4436
