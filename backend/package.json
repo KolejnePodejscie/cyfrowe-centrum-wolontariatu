@@ -8,11 +8,12 @@
         "build": "tsc",
         "clean": "rm -r dist"
     },
-    "type": "commonjs",
+    "type": "module",
     "devDependencies": {
         "@tsconfig/node-lts": "^22.0.2",
         "@types/express": "^5.0.3",
         "@types/node": "^24.6.2",
+        "openapi-generator-cli": "^1.0.0",
         "prettier": "^3.6.2",
         "tsx": "^4.20.6",
         "typescript": "^5.9.3"

@@ -1,5 +1,5 @@
 import express, { type Express } from "express";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import { pinoHttp } from "pino-http";
 
 const app: Express = express();
