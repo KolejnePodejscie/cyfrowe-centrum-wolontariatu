@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS taskAssignment(
-    taskId UUID NOT NULL,
+    taskId UUID PRIMARY KEY NOT NULL,
     FOREIGN KEY (taskId) REFERENCES eventTasks (id) ON DELETE CASCADE,
     volounteerId UUID NOT NULL,
     FOREIGN KEY (volounteerId) REFERENCES users (id) ON DELETE CASCADE,
