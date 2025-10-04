@@ -47,7 +47,6 @@ export interface Organisation {
 }
 
 export interface Error {
-    id: string; // uuid
     title: string;
     description?: string;
 }

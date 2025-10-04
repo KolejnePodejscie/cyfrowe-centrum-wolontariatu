@@ -1,3 +1,5 @@
+import type { AxiosResponse } from "axios";
+
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
@@ -9,6 +11,12 @@ declare global {
             DB_URL: string;
             ORY_URL: string;
             MOCK_COOKIE: string;
+        }
+    }
+
+    namespace Express {
+        export interface Request {
+            session: AxiosResponse<sdk.Session, any, {}>;
         }
     }
 }

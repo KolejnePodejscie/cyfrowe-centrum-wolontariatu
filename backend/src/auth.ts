@@ -31,7 +31,6 @@ export const requireAuth = async (
         const session = await ory.toSession({
             cookie: process.env.MOCK_COOKIE,
         });
-        // @ts-expect-error
         req.session = session;
         next();
     } catch (error) {
