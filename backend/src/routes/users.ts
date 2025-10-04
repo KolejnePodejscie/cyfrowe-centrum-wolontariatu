@@ -24,8 +24,13 @@ router.post("/", requireAuth, (req, res) => {
 
 // Get user past events withput tasks
 router.get("/:userId", async (req, res) => {
-    const userEvents = await getUserEvents(req.session.data.identity?.id);
     const userId = req.params.userId;
+    try {
+        const userEvents = await getUserEvents(userId);
+        res.json(userEvents);
+    } catch {
+        res.sendStatus(404);
+    }
 });
 
 // TODO EDIT USER
