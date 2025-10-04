@@ -1,4 +1,6 @@
 import express, { type Express } from "express";
+import { logger } from "./logger";
+import { pinoHttp } from "pino-http";
 
 const app: Express = express();
 
@@ -6,6 +8,7 @@ const app: Express = express();
 app.set("trust proxy", true);
 
 // Middlewares
+app.use(pinoHttp({ logger: logger }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
