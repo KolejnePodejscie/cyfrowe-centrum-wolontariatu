@@ -1,5 +1,4 @@
 -- Set correct timezone
-SET timezone = 'CET';
 CREATE EXTENSION IF NOT EXISTS citext;  
 
 CREATE TABLE IF NOT EXISTS users (
