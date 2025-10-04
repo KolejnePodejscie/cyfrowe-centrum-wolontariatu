@@ -11,14 +11,13 @@ export interface UserMin {
 // export interface OrgParticipant {}
 
 export interface Task {
-    id: number;
+    id: string; // uuid
     description: string;
     learningGoal: string;
     tags: string[];
 }
 
 export interface Location {
-    id: string; // uuid
     latitude: string;
     longitude: string;
 }
