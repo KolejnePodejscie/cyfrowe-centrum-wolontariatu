@@ -1,5 +1,8 @@
 import { app } from "./server.ts";
+import dotenv from "dotenv";
 
-app.listen(3000, () => {
-    console.log("running");
+dotenv.config();
+
+app.listen(process.env.PORT, () => {
+    console.log(`running on ${process.env.PORT}`);
 });
