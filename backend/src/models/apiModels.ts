@@ -36,7 +36,6 @@ export interface Organisation {
     id: string; // uuid
     name: string;
     description: string;
-    imageUrls: string[]; // uri
     profileImage: string;
     backgroundImage: string;
 }
