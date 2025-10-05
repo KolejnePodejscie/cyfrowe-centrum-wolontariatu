@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS events(
+    id UUID PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    latitude TEXT NOT NULL,
+    longitdue TEXT NOT NULL,
+    startDate TIMESTAMPTZ,
+    endDate TIMESTAMPTZ,
+    oragnisationId UUID NOT NULL,
+    FOREIGN KEY (oragnisationId) REFERENCES organisations (id) ON DELETE CASCADE
+);

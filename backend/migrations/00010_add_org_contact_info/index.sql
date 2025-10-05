@@ -1,0 +1,1 @@
+ALTER TABLE organisations ADD COLUMN IF NOT EXISTS contactInfo TEXT NOT NULL DEFAULT '';

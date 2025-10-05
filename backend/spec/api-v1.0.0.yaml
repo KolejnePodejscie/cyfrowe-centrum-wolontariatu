@@ -1,0 +1,893 @@
+openapi: 3.0.0
+info:
+  title: Wolontariusz API
+  description: This is a simple API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/kolejnepodejcie/reference/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: admins
+  description: Secured Admin-only calls
+- name: developers
+  description: Operations available to regular developers
+paths:
+  /blobs:
+    post:
+      tags: []
+      summary: Your POST endpoint
+      operationId: post-blobs
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: object
+              properties: {}
+      responses:
+        "201":
+          $ref: "#/components/responses/Reference"
+        default:
+          $ref: "#/components/responses/Error"
+  /blobs/{blobid}:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      operationId: get-blobs
+      parameters:
+      - name: blobid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+                properties: {}
+        default:
+          $ref: "#/components/responses/Error"
+  /users:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Only for Krakows employe
+      operationId: get-users
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  x-stoplight:
+                    id: mykn8n8n9d8es
+                  allOf:
+                  - $ref: "#/components/schemas/UserMin"
+                  - type: object
+                    properties:
+                      hours:
+                        type: integer
+                        x-stoplight:
+                          id: urslto5195kfx
+                    x-stoplight:
+                      id: iyn1a4va6hi03
+        default:
+          $ref: "#/components/responses/Error"
+  /users/{userid}:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      operationId: get-user-userid
+      parameters:
+      - name: userid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          $ref: "#/components/responses/Error"
+    put:
+      tags: []
+      summary: Your PUT endpoint
+      operationId: put-users-userid
+      parameters:
+      - name: userid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        $ref: "#/components/requestBodies/UserChange"
+      responses:
+        "204":
+          description: No Content
+        default:
+          $ref: "#/components/responses/Error"
+  /organisations:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      operationId: get-organisations
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Organisation"
+    post:
+      tags: []
+      summary: Your POST endpoint
+      operationId: post-organisations
+      responses:
+        "201":
+          $ref: "#/components/responses/Reference"
+        default:
+          $ref: "#/components/responses/Error"
+  /organisations/{orgid}:
+    put:
+      tags: []
+      summary: Your PUT endpoint
+      operationId: put-organisations-orgid
+      parameters:
+      - name: orgid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        $ref: "#/components/requestBodies/OrganisationChange"
+      responses:
+        "204":
+          description: No Content
+        default:
+          $ref: "#/components/responses/Error"
+  /events:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      operationId: get-events
+      parameters:
+      - name: startDate
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: orgId
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+    post:
+      tags: []
+      summary: Your POST endpoint
+      operationId: post-events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
+      responses:
+        "201":
+          $ref: "#/components/responses/Reference"
+        default:
+          $ref: "#/components/responses/Error"
+  /events/{eventid}:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Only event coordinator can access.
+      operationId: get-events-eventid
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventForOrg"
+        default:
+          $ref: "#/components/responses/Error"
+      security: []
+    put:
+      tags: []
+      summary: Your PUT endpoint
+      operationId: put-events-eventid
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        $ref: "#/components/requestBodies/EventChange"
+      responses:
+        "204":
+          description: No Content
+        default:
+          $ref: "#/components/responses/Error"
+  /events/{eventid}/tasks:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      operationId: get-events-eventid-tasks
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+    post:
+      tags: []
+      summary: Your POST endpoint
+      operationId: post-events-eventid-tasks
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        $ref: "#/components/requestBodies/CreateEventTask"
+      responses:
+        "201":
+          $ref: "#/components/responses/Reference"
+        default:
+          $ref: "#/components/responses/Error"
+  /events/{eventid}/tasks/{taskid}:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      operationId: get-events-eventid-tasks-taskid
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: taskid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/inline_response_200"
+        default:
+          $ref: "#/components/responses/Error"
+    post:
+      tags: []
+      summary: Your POST endpoint
+      operationId: post-events-eventid-tasks-taskid-users
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: taskid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        $ref: "#/components/requestBodies/AddUserToTask"
+      responses:
+        "204":
+          description: No Content
+        default:
+          $ref: "#/components/responses/Error"
+  /events/{eventid}/users:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      operationId: get-events-eventid-users
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+    put:
+      tags: []
+      summary: Your PUT endpoint
+      operationId: put-events-eventid-users
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/eventid_users_body"
+      responses:
+        "204":
+          description: No Content
+        default:
+          description: Default
+  /events/{eventid}/users/{userid}:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      operationId: get-events-eventid-users-userid
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/inline_response_200_1"
+        default:
+          $ref: "#/components/responses/Error"
+    post:
+      tags: []
+      summary: Your POST endpoint
+      description: This to remove.
+      operationId: post-events-eventid-users-userid-tasks
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        $ref: "#/components/requestBodies/AddTaskToUser"
+      responses:
+        "204":
+          description: No Content
+        default:
+          $ref: "#/components/responses/Error"
+  /events/{eventid}/topics:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      operationId: get-events-eventid-questions
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Topic"
+    post:
+      tags: []
+      summary: Your POST endpoint
+      operationId: post-events-eventid-topics
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/eventid_topics_body"
+      responses:
+        "201":
+          $ref: "#/components/responses/Reference"
+        default:
+          $ref: "#/components/responses/Error"
+  /evenets/{eventid}/topics/{topicid}:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      operationId: get-evenets-eventid-topics-topicid
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: topicid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/inline_response_200_2"
+        default:
+          $ref: "#/components/responses/Error"
+  /events/{eventid}/topics/{topicid}/comments:
+    post:
+      tags: []
+      summary: Your POST endpoint
+      operationId: post-events-eventid-topics-topicid-comments
+      parameters:
+      - name: eventid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: topicid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        "204":
+          description: No Content
+        default:
+          $ref: "#/components/responses/Error"
+components:
+  schemas:
+    OrgParticipant:
+      title: orgParticipant
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - coordinator
+          - volounteer
+        orgId:
+          type: string
+          format: uuid
+          x-stoplight:
+            id: lev7lzhkuf2jf
+    User:
+      title: User
+      allOf:
+      - $ref: "#/components/schemas/UserMinimal"
+      - type: object
+        properties:
+          orgs:
+            type: array
+            x-stoplight:
+              id: b28lbbqw1uglg
+            items:
+              $ref: "#/components/schemas/OrgParticipant"
+          pastEvents:
+            type: array
+            x-stoplight:
+              id: me8g2refrycrd
+            items:
+              x-stoplight:
+                id: r78xdyl01pdm3
+              allOf:
+              - $ref: "#/components/schemas/Event"
+              - type: object
+                properties:
+                  tasks:
+                    type: array
+                    x-stoplight:
+                      id: 63wxremnabxnd
+                    items:
+                      $ref: "#/components/schemas/Task"
+                x-stoplight:
+                  id: wpt3luap2hzk3
+    Event:
+      title: Action
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        title:
+          type: string
+          x-stoplight:
+            id: x51ga976sy1v0
+        description:
+          type: string
+          x-stoplight:
+            id: t3zvbje6kabx3
+        location:
+          $ref: "#/components/schemas/Location"
+        organisationId:
+          type: string
+          format: uuid
+          x-stoplight:
+            id: 258io0cmun2xd
+        imageUrls:
+          type: array
+          x-stoplight:
+            id: 174e165tdts3v
+          items:
+            type: string
+            format: uri
+            x-stoplight:
+              id: qre5u86c3dqbj
+        startDate:
+          type: string
+          format: date-time
+          x-stoplight:
+            id: re0tuxmfhgsvz
+        endDate:
+          type: string
+          format: date-time
+          x-stoplight:
+            id: m43f6athjay8x
+    Location:
+      title: Location
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          x-stoplight:
+            id: sae45ut5kz1zz
+        coordinates:
+          type: string
+          x-stoplight:
+            id: 3j6w19jrso7ud
+    EventForOrg:
+      title: EventForOrg
+      description: Event with addtional information for event coordinators.
+      allOf:
+      - $ref: "#/components/schemas/Event"
+      - $ref: "#/components/schemas/Volounteers"
+    Organisation:
+      title: Organisation
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        name:
+          type: string
+          x-stoplight:
+            id: nc5suw23g074k
+        description:
+          type: string
+          x-stoplight:
+            id: fqa12w7bfs2fw
+        imageUrls:
+          type: array
+          x-stoplight:
+            id: hhy6wrg5rvoe9
+          items:
+            type: string
+            format: uri
+            x-stoplight:
+              id: 3fh8atd6lrod1
+    UserMinimal:
+      title: UserMinimal
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+          x-stoplight:
+            id: 0l47sz637wmt9
+    Error:
+      title: Error
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          x-stoplight:
+            id: xdnq4a1zo6flf
+        description:
+          type: string
+          nullable: true
+          x-stoplight:
+            id: qkwvze87fdsy1
+    UserMin:
+      title: UserMin
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+          x-stoplight:
+            id: mwa4wnraadort
+    Task:
+      title: Task
+      type: object
+      properties:
+        id:
+          type: integer
+          nullable: true
+        description:
+          type: string
+          x-stoplight:
+            id: cwqnap3z37mvs
+        learningGoal:
+          type: string
+          nullable: true
+          x-stoplight:
+            id: ieowlci41qf3i
+        tags:
+          type: array
+          x-stoplight:
+            id: dpncd1qjbi6md
+          items:
+            type: string
+            x-stoplight:
+              id: 1jg4mug1q7x5n
+    Volounteers:
+      title: Volounteers
+      type: object
+      properties:
+        volounteers:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserMinimal"
+    Topic:
+      title: Topic
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          x-stoplight:
+            id: 6eygh3as89dum
+        description:
+          type: string
+          x-stoplight:
+            id: flzrf3lj24epa
+        creator:
+          type: string
+          format: uuid
+          x-stoplight:
+            id: jvfrdq6xc6lus
+        created:
+          type: string
+          format: date-time
+          x-stoplight:
+            id: a49bsf63libjn
+        lastUpdate:
+          type: string
+          format: date-time
+          x-stoplight:
+            id: 7fhqgs2dr4tzo
+    Comment:
+      title: Comment
+      type: object
+      properties:
+        id:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+          x-stoplight:
+            id: 9ubs29deltee1
+        userId:
+          type: string
+          format: uuid
+          x-stoplight:
+            id: 26i6n65jmkglu
+        text:
+          type: string
+          x-stoplight:
+            id: zhgjfkrf8l2or
+    inline_response_200:
+      type: object
+      properties:
+        userIds:
+          type: array
+          x-stoplight:
+            id: h839ual0grtgh
+          items:
+            type: string
+            format: uuid
+            x-stoplight:
+              id: ndvtm521b4x65
+    eventid_users_body:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          x-stoplight:
+            id: 9xo5kvzviw5mi
+    inline_response_200_1:
+      type: object
+      properties:
+        taskIds:
+          type: array
+          x-stoplight:
+            id: yijand4qpjri1
+          items:
+            type: integer
+            x-stoplight:
+              id: n6xtxpmvj1v6g
+    eventid_topics_body:
+      type: object
+      properties:
+        title:
+          type: string
+          x-stoplight:
+            id: vtuq9w67v8feq
+        description:
+          type: string
+          x-stoplight:
+            id: thjnh0wnfd1gy
+    inline_response_200_2:
+      allOf:
+      - $ref: "#/components/schemas/Topic"
+      - type: array
+        x-stoplight:
+          id: 6oygkd4e5sxwk
+        items:
+          $ref: "#/components/schemas/Comment"
+  responses:
+    Error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Reference:
+      description: Reference to object
+      content:
+        application/json:
+          schema:
+            type: string
+            format: uri-reference
+  requestBodies:
+    OrganisationChange:
+      content:
+        application/json:
+          schema:
+            type: object
+            anyOf:
+            - properties:
+                verified:
+                  type: boolean
+                  description: Only Krakows official worker can update this
+                  x-stoplight:
+                    id: ymy9feivblo57
+    UserChange:
+      content:
+        application/json:
+          schema:
+            type: object
+            anyOf:
+            - {}
+    EventChange:
+      content:
+        application/json:
+          schema:
+            type: object
+            anyOf:
+            - {}
+    CreateEventTask:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Task"
+    AddUserToTask:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userIds:
+                type: array
+                x-stoplight:
+                  id: p9mcmoqb5h6qo
+                items:
+                  type: string
+                  format: uuid
+                  x-stoplight:
+                    id: xvqh9os9z8ha9
+    AddTaskToUser:
+      description: If null then future task else finished task.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              taskIds:
+                type: array
+                x-stoplight:
+                  id: nquaezbe528vp
+                items:
+                  type: integer
+                  x-stoplight:
+                    id: 0tn1i9y7zbexv
+              hours:
+                type: integer
+                nullable: true
+                x-stoplight:
+                  id: eshnyvza9yxbo
+  securitySchemes: {}
