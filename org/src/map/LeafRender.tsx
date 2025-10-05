@@ -17,6 +17,8 @@ const LeafMap = lazy(() => import("./LeafMap"));
       const apiCalls = async () => {
         try {
           const response = await api.getEvents();
+          console.log(response);
+          
           setMarkerArr(response);
           console.log("Fetched events:", response);
         } catch (err) {
@@ -29,7 +31,7 @@ const LeafMap = lazy(() => import("./LeafMap"));
   
   return (
     <div>
-      <Suspense fallback={<p className="justify-self-center">A map is loading</p>}>
+      <Suspense fallback={<p className="justify-self-center">Ładowanie mapy</p>}>
         <LeafMap
           markerData={markerArr}
           position={{ lat: 50.06160531528376,lng: 19.938225888998353}}

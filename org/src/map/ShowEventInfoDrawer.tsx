@@ -28,7 +28,7 @@ function ShowEventInfoDrawer({isOpen, setIsOpen,eventData}:EventInfoProps) {
         <DrawerContent className='h-1/2'>
 
             <DrawerHeader>
-                <DrawerTitle className=''>Wydarzenie {eventData.title}</DrawerTitle>
+                <DrawerTitle className='self-start'>Wydarzenie {eventData.title}</DrawerTitle>
                 <DrawerDescription className=''>
                      {eventData.description}
                 </DrawerDescription>
@@ -36,9 +36,8 @@ function ShowEventInfoDrawer({isOpen, setIsOpen,eventData}:EventInfoProps) {
 
             <div className='self-center'>
                     Toilet Id :{eventData.id} <Separator/>
-                    Toilet Latitude: {eventData.location?.latitude}<Separator/>
-                    Toilet Longitude: {eventData.location?.longitude}<Separator/>
-
+                    Toilet Latitude: {eventData.latitude}<Separator/>
+                    Toilet Longitude: {eventData.longitude}<Separator/>
             </div>
 
             <DrawerFooter>
