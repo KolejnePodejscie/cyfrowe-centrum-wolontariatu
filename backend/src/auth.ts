@@ -41,9 +41,9 @@ export const requireAuth = async (
 };
 
 export async function isAdmin(userId: string) {
-    const rows = await sql`SELECT isAdmin FROM users WHERE id = ${userId}`;
+    const rows = await sql`SELECT isadmin FROM users WHERE id = ${userId}`;
     if (rows.length === 0) {
         return false;
     }
-    return rows[0].isAdmin;
+    return rows[0].isadmin;
 }
