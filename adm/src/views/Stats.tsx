@@ -21,7 +21,7 @@ function Stats() {
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
   const config = new Configuration({
-    basePath: `https://api.${baseDomain}/`,
+    basePath: `https://api.${baseDomain}`,
   });
   const api = new DefaultApi(config);
 

@@ -11,7 +11,7 @@ function Events() {
   const [events, setEvents] = useState<Event[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const config = new Configuration({
-    basePath: `https://api.${baseDomain}/`,
+    basePath: `https://api.${baseDomain}`,
   });
   const api = new DefaultApi(config);
 
