@@ -4,6 +4,7 @@ import * as userController from "../controllers/userController.js";
 import { upload } from "../upload.js";
 import { CreateUserData } from "../requests.js";
 import { DbUser } from "../models/dbModels.js";
+import { getUserEvents } from "../controllers/userController.js";
 
 const router = Router();
 
@@ -37,9 +38,7 @@ router.post("/", requireAuth, upload.single("image"), async (req, res) => {
 router.get("/:userId", async (req, res) => {
     const userId = req.params.userId;
     try {
-        const userEvents = Array.from(
-            await userController.getUserEvents(userId)
-        );
+        const userEvents = await getUserEvents(userId);
         res.json(userEvents);
     } catch {
         res.sendStatus(404);
