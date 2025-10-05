@@ -14,7 +14,11 @@ import { createEventTask } from "../controllers/userController.js";
 
 const router = Router();
 
-router.get("/", (req, res) => {});
+// Get all events
+router.get("/", requireAuth, async (req, res) => {
+    const events = eventController.getEvents();
+    res.json(events);
+});
 
 router.post("/", requireAuth, upload.array("image", 2), (req, res) => {
     const fileIds = [];
