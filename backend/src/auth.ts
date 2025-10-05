@@ -30,7 +30,7 @@ export const requireAuth = async (
 ) => {
     try {
         const session = await ory.toSession({
-            cookie: process.env.MOCK_COOKIE,
+            cookie: process.env.MOCK_COOKIE ?? req.header("cookie"),
         });
         req.session = session;
         next();

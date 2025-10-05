@@ -9,6 +9,8 @@ services:
       - 80:80
       - 443:443
     volumes:
+      - ../adm/dist:/var/www-adm
+      - ../org/dist:/var/www-org
       - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
       - ./.certs/wolontariusz.app.cer:/etc/nginx/ssl/wolontariusz.app.cer
       - ./.certs/wolontariusz.app.key:/etc/nginx/ssl/wolontariusz.app.key
@@ -38,6 +40,18 @@ services:
       - ./db-init:/docker-entrypoint-initdb.d:ro
     networks:
       - internal
+
+  db-gui:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: asdf@asdf.asdf
+      PGADMIN_DEFAULT_PASSWORD: asdf 
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - '5001:80'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    restart: unless-stopped
 
   ory-kratos-migrate:
     image: oryd/kratos:v1.3.1
@@ -91,8 +105,8 @@ services:
     env_file: ../backend/.env
     volumes:
       - ../backend/uploads:/app/uploads
-    ports:
-      - "127.0.0.1:3000:3000"
+    # ports:
+    #   - "127.0.0.1:3000:3000"
     networks:
       - internal
     command: >
@@ -171,6 +185,7 @@ services:
 
 volumes:
   pg-data:
+  pgadmin-data:
   ory-kratos-data:
   # ory-hydra-data:
   # ory-keto-data:

@@ -46,10 +46,3 @@
     }
   }
 }
-
-curl -X PATCH -d '[{"path":"/metadata_admin","op":"replace","value":{"verified":false}}]' \
-    http://localhost:4434/admin/identities/4921da52-574b-46c5-b7ab-39aaf4887f86
-
-curl -X GET \
-    http://localhost:4434/admin/identities/4921da52-574b-46c5-b7ab-39aaf4887f86 \
-    | jq
