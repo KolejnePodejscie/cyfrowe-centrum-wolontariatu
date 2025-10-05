@@ -1,19 +1,16 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { DefaultApi, Configuration, type Organisation } from "../../generated";
+import { DefaultApi, type Organisation } from "../../generated";
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { Ban, Blocks, Check, Info, LucideDatabase, Trash, VenetianMask, X } from "lucide-react";
+import { Ban, Check, Info, LucideDatabase, Trash, X } from "lucide-react";
 import DialogF from "@/els/dialog";
-import { baseDomain } from "@/config";
+import { apiConfig, baseDomain } from "@/config";
 
 function Verify() {
   const [orgs, setOrgs] = useState<Organisation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const config = new Configuration({
-    basePath: `https://api.${baseDomain}`,
-  });
-  const api = new DefaultApi(config);
+  const api = new DefaultApi(apiConfig);
 
   useEffect(() => {
     api.getOrganisations().then(res => {

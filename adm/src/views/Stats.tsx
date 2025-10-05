@@ -9,10 +9,10 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Configuration, DefaultApi, type GetUsers200ResponseInner } from "../../generated";
+import { DefaultApi, type GetUsers200ResponseInner } from "../../generated";
 import { Button } from "@/components/ui/button";
 import DialogF from "@/els/dialog";
-import { baseDomain } from "@/config";
+import { apiConfig } from "@/config";
 
 function Stats() {
   const [users, setUsers] = useState<GetUsers200ResponseInner[]>([]);
@@ -20,10 +20,7 @@ function Stats() {
   const [sortBy, setSortBy] = useState<"name" | "hours">("name");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
-  const config = new Configuration({
-    basePath: `https://api.${baseDomain}`,
-  });
-  const api = new DefaultApi(config);
+  const api = new DefaultApi(apiConfig);
 
   useEffect(() => {
     api.getUsers().then(res => {

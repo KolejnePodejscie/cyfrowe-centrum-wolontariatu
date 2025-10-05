@@ -1,19 +1,17 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { DefaultApi, Configuration, type Event } from "../../generated";
+import { DefaultApi, type Event } from "../../generated";
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button"
 import { LucideDatabase } from "lucide-react";
 import DialogF from "@/els/dialog";
-import { baseDomain } from "@/config";
+import { apiConfig } from "@/config";
 
 function Events() {
   const [events, setEvents] = useState<Event[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const config = new Configuration({
-    basePath: `https://api.${baseDomain}`,
-  });
-  const api = new DefaultApi(config);
+
+  const api = new DefaultApi(apiConfig);
 
 
   useEffect(() => {
