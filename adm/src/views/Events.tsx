@@ -5,11 +5,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button"
 import { LucideDatabase } from "lucide-react";
 import DialogF from "@/els/dialog";
+import { baseDomain } from "@/config";
 
 function Events() {
   const [events, setEvents] = useState<Event[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const config = new Configuration();
+  const config = new Configuration({
+    basePath: `https://api.${baseDomain}/`,
+  });
   const api = new DefaultApi(config);
 
 

@@ -10,7 +10,9 @@ import { baseDomain } from "@/config";
 function Verify() {
   const [orgs, setOrgs] = useState<Organisation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const config = new Configuration();
+  const config = new Configuration({
+    basePath: `https://api.${baseDomain}/`,
+  });
   const api = new DefaultApi(config);
 
   useEffect(() => {
