@@ -48,8 +48,14 @@ router.post("/:eventId/tasks", (req, res) => {
     const eventId = req.params.eventId;
 });
 
-// Get task info
+// Get users assigned to task
 router.get("/:eventId/tasks/:taskId", (req, res) => {
+    const eventId = req.params.eventId;
+    const taskId = req.params.taskId;
+});
+
+// Assign user to task
+router.post("/:eventId/tasks/:taskId/:userId", (req, res) => {
     const eventId = req.params.eventId;
     const taskId = req.params.taskId;
 });
