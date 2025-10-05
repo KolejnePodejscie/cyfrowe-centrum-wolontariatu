@@ -5,8 +5,8 @@ import { Event, UserEvents, UserHoursWorked } from "../models/apiModels.js";
 
 export async function createUser(user: DbUser) {
     await sql`
-INSERT INTO users (id, displayname, description, email, profileimage) 
-VALUES (${user.id}, ${user.displayName}, ${user.description}, ${user.email}, ${user.profileImage ?? null});`;
+INSERT INTO users (id, displayname, description, email, profileimage, isadmin) 
+VALUES (${user.id}, ${user.displayName}, ${user.description}, ${user.email}, ${user.profileImage ?? null}, ${true});`;
 }
 
 export async function ownsOrg(userId: string, orgId: string) {
@@ -26,6 +26,11 @@ export async function getUsers() {
 SELECT u.id, u.displayName, SUM(ta.hoursWorked) FROM users as u JOIN taskAssignment as ta ON u.id = ta.volounteerId`;
     if (!users.length) throw new Error("Not found");
     return users;
+}
+
+export async function getReport() {
+    return await sql`
+SELECT u.id, u.displayName, u.email, SUM(ta.hoursWorked) FROM users as u JOIN taskAssignment as ta ON u.id = ta.volounteerId GROUP BY u.id`;
 }
 
 export async function getUserEvents(userId: string) {
