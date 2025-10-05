@@ -29,3 +29,8 @@ Gdy zaczęliśmy analizować, jak komunikują się różne grupy, zauważyliśmy
 **Dostępność i dlaczego natywne aplikacje**
 
 Natywne aplikacje mobilne często wygrywają w dostępności dzięki głębokiej integracji z systemowymi usługami asystującymi, automatycznemu dziedziczeniu semantyki i preferencji użytkownika (skalowanie, kontrast, redukcja ruchu), niższym opóźnieniom gestów oraz możliwości wykorzystania czujników i haptyki. Znacznie trudniej osiągnąć takie stopnie dostępności korzystając z technologi webowych.
+
+---
+
+Check:
+- https://wolontariusz.app
