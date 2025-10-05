@@ -1,73 +1,72 @@
-# React + TypeScript + Vite
+# Panel Administracyjny – Cyfrowe Centrum Wolontariatu
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ten moduł (`adm/`) zawiera panel administracyjny systemu Cyfrowego Centrum Wolontariatu. Aplikacja służy do:
+- przeglądania i weryfikacji organizacji oraz Kół Wolontariatu,
+- przeglądania wydarzeń,
+- podglądu statystyk wolontariuszy (np. liczba przepracowanych godzin),
+- podstawowego zarządzania sesją i kontem administratora.
 
-Currently, two official plugins are available:
+## Stos technologiczny
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| Obszar | Technologia |
+|--------|-------------|
+| Bundling / Dev Server | Vite |
+| Język | TypeScript |
+| Widoki / UI | React |
+| Routing | React Router |
+| Stylowanie | Tailwind CSS + motywy / utility classes |
+| Ikony | lucide-react |
+| Komponenty UI | (wygląda na wykorzystanie komponentów inspirowanych shadcn/ui) |
+| Autoryzacja / Sesja | Ory Kratos (pośrednio – wywołania do `auth.<domena>`) |
+| Konfiguracja API | Klasa `Configuration` (wygenerowany klient) |
 
-## React Compiler
+## Szybki start
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Klonuj repozytorium (instrukcja na poziomie głównym projektu).
+2. Wejdź do katalogu modułu:
+   ```bash
+   cd adm
+   ```
+3. Zainstaluj zależności (przykład z npm – jeśli używacie pnpm/yarn, dostosuj polecenie):
+   ```bash
+   npm install
+   ```
+4. Uruchom środowisko deweloperskie:
+   ```bash
+   npm run dev
+   ```
+5. Otwórz w przeglądarce adres wyświetlony w konsoli (standardowo `http://localhost:5173`).
 
-## Expanding the ESLint configuration
+## Skrypty (przykładowe)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Komenda | Opis |
+|---------|------|
+| `npm run dev` | Uruchamia serwer deweloperski Vite z HMR |
+| `npm run build` | Buduje aplikację produkcyjnie (output domyślnie w `dist/`) |
+| `npm run preview` | Podgląd zbudowanej aplikacji |
+| `npm run generate:apis` | Generuj klient aplikacji z OpenApi schemy serwera |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Konfiguracja domen i API
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+W pliku `src/config.tsx`:
+```ts
+export const baseDomain = "dev.wolontariusz.app";
+export const apiConfig = new Configuration({
+  basePath: `https://api.${baseDomain}`,
+  credentials: 'include',
+});
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Jeżeli środowisko się zmienia (np. staging / produkcja), należy zamienić wartość `baseDomain`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Autoryzacja i sesja
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Logika w `els/navbar.tsx`:
+- Sprawdza ważność sesji: `GET https://auth.${baseDomain}/sessions/whoami`
+- W przypadku braku ważnej sesji następuje przekierowanie do ekranu logowania Ory Kratos:
+  ```
+  https://auth.${baseDomain}/self-service/login/browser?return_to=https://adm.${baseDomain}/
+  ```
+- Wylogowanie: przekierowanie do endpointu logout Ory
+
