@@ -6,7 +6,7 @@ import Users from './organization/Users.tsx'
 import Events from './organization/Events.tsx'
 import AddEvent from './organization/AddEvent.tsx'
 import MainLayout from "./layouts/MainLayout.tsx"
-import SearchLayout from './layouts/searchLayout.tsx'
+import SearchLayout from './layouts/SearchLayout.tsx'
 
 
 function App() {
