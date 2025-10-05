@@ -94,7 +94,7 @@ services:
     networks:
       - internal
 
-  backend:
+  wolontariusz-app-api:
     build:
       context: ../backend
       dockerfile: Dockerfile
