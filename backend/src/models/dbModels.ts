@@ -1,3 +1,5 @@
+import { VerificationStatus } from "./apiModels.js";
+
 export interface DbUser {
     id: string;
     displayName: string;
@@ -11,7 +13,7 @@ export interface DbOrg {
     id?: string;
     name: string;
     description: string;
-    isVerified: boolean;
+    isVerified: VerificationStatus;
     profileImage: string;
     backgroundImage: string;
     contactInfo: string;
