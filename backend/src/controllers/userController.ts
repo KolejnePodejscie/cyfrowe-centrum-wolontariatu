@@ -24,7 +24,6 @@ WHERE om.managerid = ${userId} AND om.organisationid = ${orgId};`;
 export async function getUsers() {
     const users = await sql<UserHoursWorked[]>`
 SELECT u.id, u.displayName, SUM(ta.hoursWorked) FROM users as u JOIN taskAssignment as ta ON u.id = ta.volounteerId`;
-    if (!users.length) throw new Error("Not found");
     return users;
 }
 
