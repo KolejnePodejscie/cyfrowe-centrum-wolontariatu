@@ -8,9 +8,7 @@ export async function verifyOrg(orgId: string, verify: boolean) {
 }
 
 export async function getAllOrgs() {
-    return await sql<
-        DbOrg[]
-    >`SELECT * FROM organisations WHERE isverified = 'verified';`;
+    return await sql<DbOrg[]>`SELECT * FROM organisations;`;
 }
 
 export async function createOrg(org: DbOrg) {
