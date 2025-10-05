@@ -1,6 +1,6 @@
 import sql from "../db.js";
 import { logger } from "../logger.js";
-import { DbUser } from "../models/dbModels.js";
+import { DbTask, DbUser } from "../models/dbModels.js";
 import { Event, UserEvents, UserHoursWorked } from "../models/apiModels.js";
 
 export async function createUser(user: DbUser) {
@@ -44,4 +44,11 @@ export async function getUserEvents(userId: string) {
     WHERE ta.volounterId = ${userId}`;
 
     return userEvents;
+}
+
+export async function createEventTask(task: DbTask) {
+    await sql`
+        INSERT INTO eventTasks (eventId, description, goal)
+        VALUES (${task.eventid}, ${task.description}, ${task.goal});
+        `;
 }

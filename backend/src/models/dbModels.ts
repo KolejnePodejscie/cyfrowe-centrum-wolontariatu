@@ -16,3 +16,10 @@ export interface DbOrg {
     backgroundImage: string;
     contactInfo: string;
 }
+
+export interface DbTask {
+    id?: string;
+    eventid: string;
+    description: string;
+    goal: string;
+}

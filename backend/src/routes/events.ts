@@ -8,6 +8,8 @@ import { requireAuth } from "../auth.js";
 import { upload } from "../upload.js";
 import { CreateEventData } from "../requests.js";
 import * as eventController from "../controllers/eventController.js";
+import { DbTask } from "../models/dbModels.js";
+import { createEventTask } from "../controllers/userController.js";
 
 const router = Router();
 
@@ -44,8 +46,11 @@ router.get("/:eventId/tasks", (req, res) => {
 });
 
 // Add task to event
-router.post("/:eventId/tasks", (req, res) => {
+router.post("/:eventId/tasks", async (req, res) => {
     const eventId = req.params.eventId;
+    let task = req.body as DbTask;
+    task.eventid = eventId;
+    await createEventTask(task);
 });
 
 // Get users assigned to task
