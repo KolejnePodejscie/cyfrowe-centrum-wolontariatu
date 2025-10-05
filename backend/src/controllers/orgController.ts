@@ -28,7 +28,7 @@ export async function getOrgEvents(orgId: string) {
 export async function getUserEvents(userId: string) {
     const userData =
         await sql`SELECT id as UserId, description, displayName FROM users WHERE id = ${userId}`;
-    // const userDisplayName: string = "";
+    // const userdisplayName: string = "";
 
     if (!userData.length) {
         throw new Error("User not found");
