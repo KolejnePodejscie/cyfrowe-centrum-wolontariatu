@@ -39,7 +39,7 @@ export async function getUserEvents(userId: string) {
 
     const userEvents = await sql<
         Event[]
-    >`SELECT e.id, e.title, e.description, e.latitude, e.longitude, e.organisationId, e.eventImage, e.startDate, e.endDate FROM (events as e JOIN eventTasks as et ON e.Id = et.eventId) 
+    >`SELECT e.id, e.title, e.description, e.latitude, e.longitude, e.organisationId, e.startDate, e.endDate FROM (events as e JOIN eventTasks as et ON e.Id = et.eventId) 
     JOIN taskAssignment as ta ON et.Id = ta.taskId
     WHERE ta.volounterId = ${userId}`;
 

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+    getEventData,
     getEventTasks,
     getEventVolunteerss,
     getUserTasksFromEvent,
@@ -30,6 +31,12 @@ router.post("/", requireAuth, upload.array("image", 2), (req, res) => {
 // Get event info
 router.get("/:eventId", (req, res) => {
     const eventId = req.params.eventId;
+    try {
+        const eventData = getEventData(eventId);
+        res.send(eventData);
+    } catch (err) {
+        res.sendStatus(404);
+    }
 });
 
 // Edit event

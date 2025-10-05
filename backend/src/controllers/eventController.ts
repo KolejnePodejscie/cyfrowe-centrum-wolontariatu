@@ -1,5 +1,12 @@
 import { CreateEventData } from "../requests.js";
-import { Task, UserMinimal, Volounteer } from "../models/apiModels.js";
+import {
+    EventWithVolounteers,
+    Task,
+    Event,
+    UserMinimal,
+    Volounteer,
+    image,
+} from "../models/apiModels.js";
 import sql from "../db.js";
 
 export async function getUserTasksFromEvent(userId: string, eventId: string) {
@@ -26,12 +33,12 @@ RETURNING id;
 }
 
 export async function getEventVolunteerss(eventId: string) {
-    const eventVolunteers = sql<
+    const eventVolunteers = (await sql<
         Volounteer[]
     >`SELECT u.id, u.displayName, ev.isAccepted FROM users as u
     JOIN eventVolunteer as ev ON u.id = ev.volunteerId
     WHERE ev.eventId = ${eventId};
-`;
+`) as Volounteer[];
     return eventVolunteers;
 }
 
@@ -41,4 +48,25 @@ export async function getEventTasks(eventId: string) {
     >`SELECT t.id, t.description, t.goal as learningGoal FROM tasks as t WHERE t.eventId = ${eventId};
 `;
     return eventTasks as Task[];
+}
+
+export async function getEventData(eventId: string) {
+    const eventVolounteers = await getEventVolunteerss(eventId);
+    type strarr = string[];
+    const eventImages = (await sql<
+        image[]
+    >`SELECT imagename FROM eventImages as ei WHERE ei.eventid = ${eventId}`) as image[];
+
+    let eventInfo = (await sql<
+        Event[]
+    >`SELECT e.id, e.title, e.description, e.latitude, e.longitude, e.organisationId, e.startDate, e.endDate FROM events as e
+    WHERE e.id = ${eventId}`) as Event[];
+    if (!eventInfo.length) {
+        throw new Error("Event does not exists");
+    }
+    let eventData: EventWithVolounteers = eventInfo[0] as EventWithVolounteers;
+    eventData.volounteers = eventVolounteers;
+    eventData.imageUrls = eventImages;
+
+    return eventData;
 }

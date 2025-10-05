@@ -17,20 +17,28 @@ export interface Tasks {
     tasks: Task[];
 }
 
+export interface image {
+    imageName: string;
+}
+
 export interface Event {
     id: string; // uuid
     title: string;
     description: string;
     organisationId: string; // uuid
-    image: string; // blob uuid
     startDate: string; // date-time
     endDate: string; // date-time
     latitude: number;
     longitude: number;
+    imageUrls: image[]; // blob storage strings
 }
 
 export interface EventWithTasks extends Event {
     tasks: Task[];
+}
+
+export interface EventWithVolounteers extends Event {
+    volounteers: Volounteer[];
 }
 
 export interface Organisation {
