@@ -9,6 +9,8 @@ services:
       - 80:80
       - 443:443
     volumes:
+      - ../adm/dist:/var/www-adm
+      # - ../org/dist:/var/www-org
       - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
       - ./.certs/wolontariusz.app.cer:/etc/nginx/ssl/wolontariusz.app.cer
       - ./.certs/wolontariusz.app.key:/etc/nginx/ssl/wolontariusz.app.key
@@ -103,8 +105,8 @@ services:
     env_file: ../backend/.env
     volumes:
       - ../backend/uploads:/app/uploads
-    ports:
-      - "127.0.0.1:3000:3000"
+    # ports:
+    #   - "127.0.0.1:3000:3000"
     networks:
       - internal
     command: >

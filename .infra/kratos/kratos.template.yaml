@@ -22,7 +22,6 @@ serve:
       enabled: true
       allowed_origins:
         - https://<auth_hostname>
-        # - http://localhost:4000
   admin:
     base_url: http://localhost:4434
 
@@ -30,7 +29,7 @@ serve:
 # Configure the session cookie.
 #
 cookies:
-  domain: http://<domain_hostname>
+  domain: .<domain_hostname>
   path: /
   same_site: Lax
 
@@ -43,7 +42,9 @@ selfservice:
   default_browser_return_url: https://<auth_hostname>/_/welcome
   allowed_return_urls:
     - https://<auth_hostname>
-    # - http://
+    - https://api.<domain_hostname>
+    - https://adm.<domain_hostname>
+    - https://org.<domain_hostname>
 
   methods:
     password:
