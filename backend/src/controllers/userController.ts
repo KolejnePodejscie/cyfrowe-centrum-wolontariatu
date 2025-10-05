@@ -28,6 +28,11 @@ SELECT u.id, u.displayName, SUM(ta.hoursWorked) FROM users as u JOIN taskAssignm
     return users;
 }
 
+export async function getReport() {
+    return await sql`
+SELECT u.id, u.displayName, u.email, SUM(ta.hoursWorked) FROM users as u JOIN taskAssignment as ta ON u.id = ta.volounteerId GROUP BY u.id`;
+}
+
 export async function getUserEvents(userId: string) {
     const userData =
         await sql`SELECT id as UserId, description, displayName FROM users WHERE id = ${userId}`;
