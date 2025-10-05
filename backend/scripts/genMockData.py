@@ -119,30 +119,24 @@ for _ in range(200):
 # CONCATINATED 
 migrations_f = open("index.sql", "w")
 for user in users:
-    migrations_f.write("INSERT INTO users(id, displayName, description, email, isadmin) VALUES (\'" + str(user.id) + "\', \'" + str(user.displayName) + "\', \'" + str(user.description) + "\', \'" + str(user.email) + "\', true);\n")
+    migrations_f.write("INSERT INTO users(id, displayName, description, email, isadmin) VALUES (\'" + str(user.id) + "\', \'" + str(user.displayName) + "\', \'" + str(user.description) + "\', \'" + str(user.email) + "\', true) ON CONFLICT DO NOTHING;\n")
 
-org_f = open("insert_orgs.sql", "w")
 for org in orgs:
-    migrations_f.write("INSERT INTO organisations(id, name, description, isVerified, contactinfo) VALUES (\'" + str(org.id) + "\', \'" + str(org.name) + "\', \'" + str(org.description) + "\', true, \'" + str(org.contactinfo) +"\');\n")
+    migrations_f.write("INSERT INTO organisations(id, name, description, isVerified, contactinfo) VALUES (\'" + str(org.id) + "\', \'" + str(org.name) + "\', \'" + str(org.description) + "\', true, \'" + str(org.contactinfo) +"\') ON CONFLICT DO NOTHING;\n")
 
 
-orgman_f = open("insert_managers.sql", "w")
 for orgman in orgmanagers:
-    migrations_f.write("INSERT INTO oragnisationmanagers(organisationId, managerId) VALUES (\'" + str(orgman.organisationid) + "\', \'" + str(orgman.managerid) + "\');\n")
+    migrations_f.write("INSERT INTO oragnisationmanagers(organisationId, managerId) VALUES (\'" + str(orgman.organisationid) + "\', \'" + str(orgman.managerid) + "\') ON CONFLICT DO NOTHING;\n")
 
-event_f = open("insert_events.sql", "w")
 for event in events:
-    migrations_f.write("INSERT INTO events(id, title, latitude, longitude, organisationid) VALUES (\'" + event.id + "\',\'" + event.title + "\'," + str(event.latitude) + "," + str(event.longitude) + ", \'" + event.organisationid + "\'); \n")
+    migrations_f.write("INSERT INTO events(id, title, latitude, longitude, organisationid) VALUES (\'" + event.id + "\',\'" + event.title + "\'," + str(event.latitude) + "," + str(event.longitude) + ", \'" + event.organisationid + "\') ON CONFLICT DO NOTHING; \n")
 
-eventtask_f = open("insert_event_task.sql", "w")
 for task in eventtasks:
-    migrations_f.write("INSERT INTO eventtasks(id, eventid, description, goal) VALUES (\'" + task.id +"\', \'" + task.eventid + "\', \'" + task.description + "\', \'" + task.goal + "\'); \n")
+    migrations_f.write("INSERT INTO eventtasks(id, eventid, description, goal) VALUES (\'" + task.id +"\', \'" + task.eventid + "\', \'" + task.description + "\', \'" + task.goal + "\') ON CONFLICT DO NOTHING; \n")
 
-usertask_f = open("insert_user_task.sql", "w")
 for usertask in usertasks:
-    migrations_f.write("INSERT INTO taskassignment(taskid, volounteerid) VALUES (\'" + str(usertask.taskid) + "\', \'" + str(usertask.volountereid) + "\');\n" )
+    migrations_f.write("INSERT INTO taskassignment(taskid, volounteerid) VALUES (\'" + str(usertask.taskid) + "\', \'" + str(usertask.volountereid) + "\') ON CONFLICT DO NOTHING;\n" )
 
-eventvolounter_f = open("insert_event_volounter.sql", "w")
 for eventv in eventvolounters:
-    migrations_f.write("INSERT INTO eventvolunteer(eventid, volunteerid, isaccepted) VALUES (\'" + eventv.eventid + "\', \'" + eventv.volunteerid + "\', true);\n")
+    migrations_f.write("INSERT INTO eventvolunteer(eventid, volunteerid, isaccepted) VALUES (\'" + eventv.eventid + "\', \'" + eventv.volunteerid + "\', true) ON CONFLICT DO NOTHING;\n")
 
