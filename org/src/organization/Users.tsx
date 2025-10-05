@@ -23,20 +23,6 @@ function Stats() {
     const api = new DefaultApi(config);
     api.getUsers().then(res => {
       setUsers(res);
-    setUsers([{
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "displayName": "string",
-      "hours": 0
-    }, {
-      "id": "2fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "displayName": "astring",
-      "hours": 22
-    }, {
-      "id": "4fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "displayName": "xstring",
-      "hours": 5
-    }
-    ])
       setIsLoading(false);
     });
   }, []);

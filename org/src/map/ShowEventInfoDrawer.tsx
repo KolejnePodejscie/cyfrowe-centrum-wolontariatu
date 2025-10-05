@@ -35,9 +35,9 @@ function ShowEventInfoDrawer({isOpen, setIsOpen,eventData}:EventInfoProps) {
             </DrawerHeader>
 
             <div className='self-center'>
-                    Toilet Id :{eventData.id} <Separator/>
-                    Toilet Latitude: {eventData.latitude}<Separator/>
-                    Toilet Longitude: {eventData.longitude}<Separator/>
+                    Event Id :{eventData.id} <Separator/>
+                    Event Latitude: {eventData.latitude}<Separator/>
+                    Event Longitude: {eventData.longitude}<Separator/>
             </div>
 
             <DrawerFooter>

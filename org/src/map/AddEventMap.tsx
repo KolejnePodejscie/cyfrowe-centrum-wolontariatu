@@ -88,7 +88,7 @@ function LeafMap({position,zoom}:LeafMapProps) {
     function searchAddress(){
        const data= Geocode(searchString)
         if(data){
-            openDrawer({})
+            // openDrawer({})
         }
 
     }
