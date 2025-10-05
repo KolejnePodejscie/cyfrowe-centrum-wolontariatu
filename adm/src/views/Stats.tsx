@@ -32,7 +32,7 @@ function Stats() {
 
   const sortedUsers = [...users].sort((a, b) => {
     if (sortBy === "name") {
-      const cmp = (a.displayName || "").localeCompare(b.displayName || "");
+      const cmp = (a.displayname || "").localeCompare(b.displayname || "");
       return sortDir === "asc" ? cmp : -cmp;
     } else {
       const cmp = (a.hours ?? 0) - (b.hours ?? 0);
@@ -112,7 +112,7 @@ function Stats() {
           ) : (
             sortedUsers.map(user => (
               <TableRow key={user.id}>
-                <TableCell>{user.displayName}</TableCell>
+                <TableCell>{user.displayname}</TableCell>
                 <TableCell>{user.hours}</TableCell>
                 <TableCell className="justify-end flex gap-2">
                   <DialogF
