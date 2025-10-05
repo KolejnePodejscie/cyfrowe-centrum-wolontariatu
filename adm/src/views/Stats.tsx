@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { DefaultApi, type GetUsers200ResponseInner } from "../../generated";
 import { Button } from "@/components/ui/button";
 import DialogF from "@/els/dialog";
-import { apiConfig } from "@/config";
+import { apiConfig, baseDomain } from "@/config";
 
 function Stats() {
   const [users, setUsers] = useState<GetUsers200ResponseInner[]>([]);
@@ -53,7 +53,7 @@ function Stats() {
     <main className="container mx-auto px-4 py-8 space-y-8 flex-1">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold mb-2">Wydarzenia</h2>
-        <a href="https://api.${baseDomain}/e/volunteers.csv"
+        <a href={`https://api.${baseDomain}/e/volunteers.csv`}
           className="flex items-center gap-1">
           <Button variant="outline">
             <LucideDatabase />Eksport danych
