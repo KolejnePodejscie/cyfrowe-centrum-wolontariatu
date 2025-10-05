@@ -74,7 +74,7 @@ export async function getEventData(eventId: string) {
 export async function getEvents() {
     const events = (await sql<
         Event[]
-    >`SELECT e.id, e.title, e.description, e.latitude, e.longitude, e.organisationId, e.startDate, e.endDate SELECT e.id, e.title, e.description, e.latitude, e.longitude, e.organisationId, e.startDate, e.endDate FROM events as e
+    >`SELECT e.id, e.title, e.description, e.latitude, e.longitude, e.organisationId, e.startDate, e.endDate
     FROM events as e`) as Event[];
     return events;
 }
