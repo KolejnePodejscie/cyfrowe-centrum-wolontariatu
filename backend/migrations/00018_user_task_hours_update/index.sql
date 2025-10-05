@@ -1,0 +1,1 @@
+UPDATE taskAssignment SET hoursWorked = trunc(random() * 9 + 1) WHERE true;
