@@ -24,7 +24,7 @@ function Events() {
     <main className="container mx-auto px-4 py-8 space-y-8">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold mb-2">Wydarzenia</h2>
-        <a href="https://api.dev.wolontariusz.app/e/events.csv"
+        <a href="https://api.${baseDomain}/e/events.csv"
           className="flex items-center gap-1">
           <Button variant="outline">
             <LucideDatabase />Eksport danych

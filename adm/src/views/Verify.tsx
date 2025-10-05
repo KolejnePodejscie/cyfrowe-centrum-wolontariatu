@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Ban, Blocks, Check, Info, LucideDatabase, Trash, VenetianMask, X } from "lucide-react";
 import DialogF from "@/els/dialog";
+import { baseDomain } from "@/config";
 
 function Verify() {
   const [orgs, setOrgs] = useState<Organisation[]>([]);
@@ -90,7 +91,7 @@ function Verify() {
       </div>
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold mb-2">Zaakceptowane organizacje</h2>
-        <a href="https://api.dev.wolontariusz.app/e/organisations.csv"
+        <a href={`https://api.${baseDomain}/e/organisations.csv`}
           className="flex items-center gap-1">
           <Button variant="outline">
             <LucideDatabase />Eksport danych
