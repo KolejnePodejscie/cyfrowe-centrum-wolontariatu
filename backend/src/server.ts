@@ -18,6 +18,18 @@ app.use(express.text());
 
 app.use("/", router);
 
+app.get("/search", async (req, res) => {
+    const q = req.query.q;
+    const url = `https://nominatim.openstreetmap.org/search?q=${q}&format=json&addressdetails=1`;
+
+    const response = await fetch(url, {
+        headers: { "User-Agent": "YourAppName/1.0" },
+    });
+
+    const data = await response.json();
+    res.json(data);
+});
+
 app.use(notFound);
 app.use(errorHandler);
 
