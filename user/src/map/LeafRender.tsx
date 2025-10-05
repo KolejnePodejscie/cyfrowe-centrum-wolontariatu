@@ -35,7 +35,7 @@ const LeafMap = lazy(() => import("./LeafMap"));
         <LeafMap
           markerData={markerArr}
           position={{ lat: 50.06160531528376,lng: 19.938225888998353}}
-          zoom={11}
+          zoom={9}
         />
       </Suspense>
     </div>

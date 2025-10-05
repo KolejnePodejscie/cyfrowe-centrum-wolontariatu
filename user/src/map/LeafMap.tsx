@@ -108,7 +108,7 @@ function LeafMap({position,zoom,markerData}:LeafMapProps) {
 
 
   return (
-        <MapContainer center={position}  zoom={zoom} worldCopyJump={true} zoomControl={false} attributionControl={false} minZoom={7}  scrollWheelZoom={'center'} className={"z-1 h-screen w-screen"} >
+        <MapContainer center={position}  zoom={zoom} worldCopyJump={true} zoomControl={false} minZoom={7} attributionControl={false}  scrollWheelZoom={'center'} className={"z-1 h-screen w-screen"} >
             <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

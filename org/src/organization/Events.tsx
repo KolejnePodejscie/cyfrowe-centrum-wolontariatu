@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import DialogF from "@/els/dialog";
 
 
 function Events() {
@@ -33,25 +34,29 @@ function Events() {
             <Link to="/dodajWydarzenie">Dodaj wydarzenie</Link>
           </Button>
         </div>
-   
-        <div className="grid gap-6">
-          {isLoading
-            ? Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton key={i} className="mt-4 w-full h-40" />
-            ))
-            : events.map(event => (
-              <Card key={event.id}>
-                <CardHeader>
-                  <CardTitle>{event.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {event.description}
-                </CardContent>
-                <CardFooter className="flex justify-end">
-                </CardFooter>
-              </Card>
-            ))}
-        </div>
+
+      <div className="grid gap-6">
+        {isLoading
+          ? Array.from({ length: 3 }).map((_, i) => (
+            <Skeleton key={i} className="mt-4 w-full h-40" />
+          ))
+          : events.map(event => (
+            <Card key={event.id}>
+              <CardHeader>
+                <CardTitle>{event.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                Organizator: {event.id}<br />
+                {event.description}
+              </CardContent>
+              <CardFooter className="flex justify-end">
+                <DialogF
+                  req={() => event}
+                />
+              </CardFooter>
+            </Card>
+          ))}
+      </div>
         
       </main>
        <div className='ml-20'>

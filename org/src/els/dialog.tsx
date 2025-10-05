@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { renderDetails } from "@/lib/display";
+
 import { Info } from "lucide-react";
 import { useState } from "react";
 
@@ -41,9 +41,6 @@ function DialogF(
       <DialogContent className={props.className}>
         <DialogHeader>
           <DialogTitle>Szczegóły</DialogTitle>
-          <DialogDescription>
-            {details ? renderDetails(details) : "Ładowanie..."}
-          </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>

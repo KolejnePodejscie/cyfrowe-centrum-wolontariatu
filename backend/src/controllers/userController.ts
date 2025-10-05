@@ -1,11 +1,17 @@
 import sql from "../db.js";
 import { logger } from "../logger.js";
 import { DbTask, DbUser } from "../models/dbModels.js";
-import { Event, UserEvents, UserHoursWorked } from "../models/apiModels.js";
+import {
+    Event,
+    User,
+    UserEv,
+    UserEvents,
+    UserHoursWorked,
+} from "../models/apiModels.js";
 
 export async function createUser(user: DbUser) {
     await sql`
-INSERT INTO users (id, displayname, description, email, profileimage, isadmin) 
+INSERT INTO users (id, displayName, description, email, profileimage, isadmin) 
 VALUES (${user.id}, ${user.displayName}, ${user.description}, ${user.email}, ${user.profileImage ?? null}, ${true});`;
 }
 
@@ -33,21 +39,28 @@ SELECT u.id, u.displayName, u.email, SUM(ta.hoursWorked) FROM users as u JOIN ta
 }
 
 export async function getUserEvents(userId: string) {
-    const userData =
-        await sql`SELECT id as UserId, description, displayName FROM users WHERE id = ${userId}`;
-    // const userDisplayName: string = "";
+    const userData = (await sql<
+        UserEv[]
+    >`SELECT id as UserId, description, displayName FROM users WHERE id = ${userId}`) as UserEv[];
 
     if (!userData.length) {
         throw new Error("User not found");
     }
 
-    const userEvents = await sql<
+    const userEvents = (await sql<
         Event[]
     >`SELECT e.id, e.title, e.description, e.latitude, e.longitude, e.organisationId, e.startDate, e.endDate FROM (events as e JOIN eventTasks as et ON e.Id = et.eventId) 
     JOIN taskAssignment as ta ON et.Id = ta.taskId
-    WHERE ta.volounterId = ${userId}`;
+    WHERE ta.volounterId = ${userId}`) as Event[];
 
-    return userEvents;
+    let userEventData: UserEvents = {
+        id: userData[0].id,
+        displayName: userData[0].displayName,
+        description: userData[0].description,
+        events: userEvents,
+    };
+
+    return userEventData;
 }
 
 export async function createEventTask(task: DbTask) {
