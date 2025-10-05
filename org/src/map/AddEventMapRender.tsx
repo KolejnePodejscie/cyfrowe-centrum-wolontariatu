@@ -6,7 +6,7 @@ const api = new DefaultApi(config);
 
 
 
-const LeafMap = lazy(() => import("./LeafMap"));
+const LeafMap = lazy(() => import("./AddEventMap"));
 
  
   function LeafRender() {

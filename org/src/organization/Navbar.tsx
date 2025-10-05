@@ -1,54 +1,36 @@
-import React from 'react'
-
+"use client"
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
+  NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { Button } from '@/components/ui/button'
-import { useNavigate } from 'react-router-dom';
 
-
-function Navbar() {
-
-    const navigate = useNavigate();
-
-    const setRoute = (route:string) => {
-        navigate(`${route}`)  
-    };
-
-
+export function Navbar() {
   return (
-    <div className='self-center w-screen'>
-        {/* <NavigationMenu>
-            <NavigationMenuList>
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger>TEST</NavigationMenuTrigger>
-                    <NavigationMenuContent><p>content</p></NavigationMenuContent>
-                </NavigationMenuItem>
-                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>TEST</NavigationMenuTrigger>
-                    <NavigationMenuContent><p>content</p></NavigationMenuContent>
-                </NavigationMenuItem>
-                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>TEST</NavigationMenuTrigger>
-                    <NavigationMenuContent><p>content</p></NavigationMenuContent>
-                </NavigationMenuItem>
-            </NavigationMenuList>
-        </NavigationMenu> */}
-        <div className='flex flex-row justify-around self-center w-full '>
-            <Button onClick={()=>setRoute('/dashboard')} variant={'outline'} className='w-50'>Dashboard</Button>
-            <Button variant={'outline'} onClick={()=>setRoute('/myEvents')} className='w-50'>Wydarzenia Organizacji</Button>
-            <Button variant={'outline'}  onClick={()=>setRoute('/eventsMap')} className='w-50'>Mapa Wydarzeń</Button>
-            <Button variant={'outline'} onClick={()=>setRoute('/chats')} className='w-25'>Czaty</Button>
-        </div>
-
-
-
-
-    </div>
+    <header className="flex justify-center h-14 m-2">
+      <NavigationMenu viewport={false}>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/">
+              <img src="/logo.webp" className="h-14" />
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/mapa">Mapa Wydarzeń</NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/uzytkownicy">Uzytkownicy</NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/wydarzenia">Wydarzenia</NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/czaty">Czaty</NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </header>
   )
 }
 
