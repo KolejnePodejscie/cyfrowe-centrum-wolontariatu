@@ -23,7 +23,7 @@ WHERE om.managerid = ${userId} AND om.organisationid = ${orgId};`;
 // TODO add filtering by daterange
 export async function getUsers() {
     const users = await sql<UserHoursWorked[]>`
-SELECT u.id, u.displayName, SUM(ta.hoursWorked) FROM users as u JOIN taskAssignment as ta ON u.id = ta.volounteerId GROUP BY u.id`;
+SELECT u.id, u.displayName, SUM(ta.hoursWorked) as hours FROM users as u JOIN taskAssignment as ta ON u.id = ta.volounteerId GROUP BY u.id`;
     return users;
 }
 

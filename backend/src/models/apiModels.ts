@@ -85,7 +85,7 @@ export interface User extends UserMinimal {
     description: string;
 }
 export interface UserHoursWorked extends UserMinimal {
-    hoursWorked: number;
+    hours: number;
 }
 
 export interface UserEvents extends UserMinimal {
