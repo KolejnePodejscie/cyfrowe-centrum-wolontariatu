@@ -1,9 +1,10 @@
 import sql from "../db.js";
 import { DbOrg } from "../models/dbModels.js";
 import { Event } from "../models/apiModels.js";
+import { webcrypto } from "crypto";
 
-export async function verifyOrg(orgId: string) {
-    await sql`UPDATE organisations SET isverified = 'verified' WHERE id = ${orgId};`;
+export async function verifyOrg(orgId: string, verify: boolean) {
+    await sql`UPDATE organisations SET isverified = ${verify ? "verified" : "rejected"} WHERE id = ${orgId};`;
 }
 
 export async function getAllOrgs() {

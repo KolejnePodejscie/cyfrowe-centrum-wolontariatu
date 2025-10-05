@@ -16,6 +16,8 @@ router.post("/", requireAuth, async (req, res) => {
 });
 
 router.patch("/:orgId", requireAuth, async (req, res) => {
+    const { verified } = req.body;
+
     const orgId = req.params.orgId;
     try {
         const valid = await isAdmin(req.session.data.identity.id);
@@ -28,7 +30,7 @@ router.patch("/:orgId", requireAuth, async (req, res) => {
         return;
     }
 
-    orgController.verifyOrg(orgId);
+    orgController.verifyOrg(orgId, verified);
 
     res.sendStatus(204);
 });
