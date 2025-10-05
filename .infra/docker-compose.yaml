@@ -10,7 +10,7 @@ services:
       - 443:443
     volumes:
       - ../adm/dist:/var/www-adm
-      # - ../org/dist:/var/www-org
+      - ../org/dist:/var/www-org
       - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
       - ./.certs/wolontariusz.app.cer:/etc/nginx/ssl/wolontariusz.app.cer
       - ./.certs/wolontariusz.app.key:/etc/nginx/ssl/wolontariusz.app.key

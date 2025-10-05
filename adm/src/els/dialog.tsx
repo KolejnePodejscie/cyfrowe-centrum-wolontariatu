@@ -40,7 +40,7 @@ function DialogF(
       </DialogTrigger>
       <DialogContent className={props.className}>
         <DialogHeader>
-          <DialogTitle>Sczegóły</DialogTitle>
+          <DialogTitle>Szczegóły</DialogTitle>
           <DialogDescription>
             {details ? renderDetails(details) : "Ładowanie..."}
           </DialogDescription>

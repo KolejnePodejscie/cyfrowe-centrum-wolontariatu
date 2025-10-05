@@ -6,6 +6,7 @@ import {
     UserMinimal,
     Volounteer,
     image,
+    VerificationStatus,
 } from "../models/apiModels.js";
 import sql from "../db.js";
 

@@ -1,15 +1,14 @@
 import sql from "../db.js";
 import { DbOrg } from "../models/dbModels.js";
 import { Event } from "../models/apiModels.js";
+import { webcrypto } from "crypto";
 
-export async function verifyOrg(orgId: string) {
-    await sql`UPDATE organisations SET isverified = True WHERE id = ${orgId};`;
+export async function verifyOrg(orgId: string, verify: boolean) {
+    await sql`UPDATE organisations SET isverified = ${verify ? "verified" : "rejected"} WHERE id = ${orgId};`;
 }
 
 export async function getAllOrgs() {
-    return await sql<
-        DbOrg[]
-    >`SELECT * FROM organisations WHERE isverified = True;`;
+    return await sql<DbOrg[]>`SELECT * FROM organisations;`;
 }
 
 export async function createOrg(org: DbOrg) {
@@ -29,7 +28,7 @@ export async function getOrgEvents(orgId: string) {
 export async function getUserEvents(userId: string) {
     const userData =
         await sql`SELECT id as UserId, description, displayName FROM users WHERE id = ${userId}`;
-    // const userDisplayName: string = "";
+    // const userdisplayName: string = "";
 
     if (!userData.length) {
         throw new Error("User not found");

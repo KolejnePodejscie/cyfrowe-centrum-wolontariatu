@@ -5,7 +5,7 @@ import { Event, UserEvents, UserHoursWorked } from "../models/apiModels.js";
 
 export async function createUser(user: DbUser) {
     await sql`
-INSERT INTO users (id, displayname, description, email, profileimage, isadmin) 
+INSERT INTO users (id, displayName, description, email, profileimage, isadmin) 
 VALUES (${user.id}, ${user.displayName}, ${user.description}, ${user.email}, ${user.profileImage ?? null}, ${true});`;
 }
 
@@ -23,8 +23,7 @@ WHERE om.managerid = ${userId} AND om.organisationid = ${orgId};`;
 // TODO add filtering by daterange
 export async function getUsers() {
     const users = await sql<UserHoursWorked[]>`
-SELECT u.id, u.displayName, SUM(ta.hoursWorked) FROM users as u JOIN taskAssignment as ta ON u.id = ta.volounteerId`;
-    if (!users.length) throw new Error("Not found");
+SELECT u.id, u.displayName, SUM(ta.hoursWorked) as hours FROM users as u JOIN taskAssignment as ta ON u.id = ta.volounteerId GROUP BY u.id`;
     return users;
 }
 
@@ -36,7 +35,7 @@ SELECT u.id, u.displayName, u.email, SUM(ta.hoursWorked) FROM users as u JOIN ta
 export async function getUserEvents(userId: string) {
     const userData =
         await sql`SELECT id as UserId, description, displayName FROM users WHERE id = ${userId}`;
-    // const userDisplayName: string = "";
+    // const userdisplayName: string = "";
 
     if (!userData.length) {
         throw new Error("User not found");

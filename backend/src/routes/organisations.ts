@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { isAdmin, requireAuth } from "../auth.js";
 import * as orgController from "../controllers/orgController.js";
-import { Organisation } from "../models/apiModels.js";
+import { DbOrg } from "../models/dbModels.js";
 
 const router = Router();
 
@@ -11,11 +11,13 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", requireAuth, async (req, res) => {
-    const org = req.body as Organisation;
+    const org = req.body as DbOrg;
     await orgController.createOrg(org);
 });
 
 router.patch("/:orgId", requireAuth, async (req, res) => {
+    const { verified } = req.body;
+
     const orgId = req.params.orgId;
     try {
         const valid = await isAdmin(req.session.data.identity.id);
@@ -28,7 +30,7 @@ router.patch("/:orgId", requireAuth, async (req, res) => {
         return;
     }
 
-    orgController.verifyOrg(orgId);
+    orgController.verifyOrg(orgId, verified);
 
     res.sendStatus(204);
 });

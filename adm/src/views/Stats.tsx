@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { DefaultApi, type GetUsers200ResponseInner } from "../../generated";
 import { Button } from "@/components/ui/button";
 import DialogF from "@/els/dialog";
-import { apiConfig } from "@/config";
+import { apiConfig, baseDomain } from "@/config";
 
 function Stats() {
   const [users, setUsers] = useState<GetUsers200ResponseInner[]>([]);
@@ -32,7 +32,7 @@ function Stats() {
 
   const sortedUsers = [...users].sort((a, b) => {
     if (sortBy === "name") {
-      const cmp = (a.displayName || "").localeCompare(b.displayName || "");
+      const cmp = (a.displayname || "").localeCompare(b.displayname || "");
       return sortDir === "asc" ? cmp : -cmp;
     } else {
       const cmp = (a.hours ?? 0) - (b.hours ?? 0);
@@ -53,7 +53,7 @@ function Stats() {
     <main className="container mx-auto px-4 py-8 space-y-8 flex-1">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold mb-2">Wydarzenia</h2>
-        <a href="https://api.${baseDomain}/e/volunteers.csv"
+        <a href={`https://api.${baseDomain}/e/volunteers.csv`}
           className="flex items-center gap-1">
           <Button variant="outline">
             <LucideDatabase />Eksport danych
@@ -112,7 +112,7 @@ function Stats() {
           ) : (
             sortedUsers.map(user => (
               <TableRow key={user.id}>
-                <TableCell>{user.displayName}</TableCell>
+                <TableCell>{user.displayname}</TableCell>
                 <TableCell>{user.hours}</TableCell>
                 <TableCell className="justify-end flex gap-2">
                   <DialogF

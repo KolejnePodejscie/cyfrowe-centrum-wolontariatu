@@ -1,73 +1,78 @@
-# React + TypeScript + Vite
+# Panel Organizacji – Cyfrowe Centrum Wolontariatu
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ten moduł (`org/`) to frontend przeznaczony dla przedstawicieli organizacji / koordynatorów wolontariatu. Umożliwia:
+- zarządzanie wydarzeniami (przegląd, dodawanie),
+- podgląd listy wydarzeń w formie mapy (Leaflet + OpenStreetMap),
+- przegląd użytkowników (wolontariuszy) związanych z organizacją,
+- podstawową nawigację po sekcjach aplikacji.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Stos technologiczny
 
-## React Compiler
+| Obszar | Technologia |
+|--------|-------------|
+| Bundler / Dev Server | Vite |
+| Język | TypeScript |
+| UI / Widoki | React 19 (RC / aktualny kanał) |
+| Routing | React Router DOM |
+| Stylowanie | Tailwind CSS + zmienne motywów |
+| Mapy | React Leaflet + OpenStreetMap |
+| Ikony | (brak widocznych w dostarczonych fragmentach, możliwe użycie lucide / Radix w innych plikach) |
+| Dynamiczny import | `React.lazy` + `Suspense` |
+| Klient API | Kod generowany (katalog `generated/`) – `DefaultApi`, `Configuration` |
+| Utility klas | `clsx`, `tailwind-merge` |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Szybki start (lokalnie)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Wejdź do katalogu modułu:
+   ```bash
+   cd org
+   ```
+2. Zainstaluj zależności:
+   ```bash
+   npm install
+   ```
+3. Wygeneruj klienta API (jeśli nie istnieje):
+   ```bash
+   npm run generate:apis
+   ```
+4. Uruchom środowisko deweloperskie:
+   ```bash
+   npm run dev
+   ```
+5. Otwórz w przeglądarce adres (domyślnie):  
+   `http://localhost:5173`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Skrypty (package.json)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Komenda | Opis |
+|---------|------|
+| `npm run dev` | Start dev (Vite + HMR) |
+| `npm run build` | Budowa produkcyjna (TS + Vite) |
+| `npm run preview` | Serwowanie zbudowanej wersji |
+| `npm run lint` | Lintowanie kodu |
+| `npm run generate:apis` | Regeneracja klienta z OpenAPI (SwaggerHub) |
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Mapa wydarzeń
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+`LeafRender.tsx`:
+- Inicjuje `DefaultApi` (bez jawnego `basePath` – może wymagać konfiguracji `VITE_API_URL`)
+- Pobiera wydarzenia przez `api.getEvents()`
+- Przekazuje dane do `LeafMap` (dynamiczny import przez `React.lazy`)
+
+`LeafMap.tsx`:
+- Renderuje `MapContainer`, markery (rekonstrukcja obiektów `Event`)
+- Zawiera stub obsługi kliknięć i reverse geocoding (Nominatim)
+- Otwarcie „drawer” (komponent `ShowEventInfoDrawer` – brak w wynikach)
+
+Rekomendacje:
+- Klucz `key` przy mapowaniu markerów
+- Caching / debounce zapytań
+- Wyodrębnienie warstwy geolokalizacji do hooka (`useReverseGeocode`)
+

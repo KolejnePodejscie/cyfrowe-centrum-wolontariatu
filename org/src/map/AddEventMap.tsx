@@ -40,7 +40,7 @@ function LeafMap({position,zoom}:LeafMapProps) {
 
     async function Geocode(address:string) {
 
-        const response = await fetch(`api.dev.wolontariusz.app:3000/search?q=${address}`,{
+        const response = await fetch(`api.wolontariusz.app/search?q=${address}`,{
             headers:{
                 "User-Agent": "YourAppName/1.0", // Nominatim requires identifying User-Agent
             } 

@@ -16,7 +16,7 @@ const router = Router();
 
 // Get all events
 router.get("/", requireAuth, async (req, res) => {
-    const events = eventController.getEvents();
+    const events = await eventController.getEvents();
     res.json(events);
 });
 

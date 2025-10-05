@@ -9,12 +9,8 @@ const router = Router();
 
 router.get("/", requireAuth, async (req, res) => {
     if (await isAdmin(req.session.data.identity?.id)) {
-        try {
-            const users = await userController.getUsers();
-            res.json(users);
-        } catch (err) {
-            res.sendStatus(404);
-        }
+        const users = await userController.getUsers();
+        res.json(users);
     } else {
         res.sendStatus(403);
     }

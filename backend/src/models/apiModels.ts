@@ -41,13 +41,14 @@ export interface EventWithVolounteers extends Event {
     volounteers: Volounteer[];
 }
 
+export type VerificationStatus = "pending" | "rejected" | "accepted";
 export interface Organisation {
     id: string; // uuid
     name: string;
     description: string;
     profileImage: string;
     backgroundImage: string;
-    isVerified: boolean;
+    isVerified: VerificationStatus;
     contactInfo: string;
 }
 
@@ -84,7 +85,7 @@ export interface User extends UserMinimal {
     description: string;
 }
 export interface UserHoursWorked extends UserMinimal {
-    hoursWorked: number;
+    hours: number;
 }
 
 export interface UserEvents extends UserMinimal {
